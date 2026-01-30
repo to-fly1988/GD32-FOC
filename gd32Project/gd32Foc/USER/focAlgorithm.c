@@ -3,20 +3,25 @@
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
-	foc->target_id=0.2f;
+	foc->targetSpeed=2000;
+	
+	foc->target_id=0;
 	foc->target_iq=0;
 	
 	/*PID参数初始化*/
-	foc->pid_id.kp=0.2f;
-	foc->pid_id.ki=0.1f;
+	foc->pid_id.kp=0.3f;
+	foc->pid_id.ki=0.001f;
+	foc->pid_id.integral=0;
 	foc->pid_id.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1	
 	
-	foc->pid_iq.kp=0.2f;
-	foc->pid_iq.ki=0.1f;
+	foc->pid_iq.kp=0.3f;
+	foc->pid_iq.ki=0.001f;
+	foc->pid_iq.integral=0;
 	foc->pid_iq.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1
 	
-	foc->pid_speed.kp=0.02f;
-	foc->pid_speed.ki=1;
+	foc->pid_speed.kp=0.1f;
+	foc->pid_speed.ki=0.001f;
+	foc->pid_speed.integral=0;
 	foc->pid_speed.out_limit=MAX_CURRENT;
 		
 	
@@ -33,7 +38,7 @@ static void clark_Park(volatile FocStatus *foc){
 static void clark_Conv(volatile FocStatus *foc){
 	
 	foc->i_alpha=foc->ia;
-	foc->i_beta=-(foc->ia+2.0f*foc->ib)*0.57735f;
+	foc->i_beta=(foc->ia+2.0f*foc->ib)*0.57735f;
 	
 }
 
@@ -56,6 +61,7 @@ static void anti_Park(volatile FocStatus *foc){
 static float pid_Process(volatile PidStatus *pid,float error){
 	
 	float out;
+	
 	/*积分项*/
 	pid->integral+=pid->ki*error;
 	
@@ -143,7 +149,7 @@ static void svpwm_Generate(volatile FocStatus *foc){
 	float ta,tb,tc,Tcm1,Tcm2,Tcm3;
 	ta=(FOC_PWM_ARR-(T1+T2))/4.0f;
 	tb=ta+T1*0.5f;
-	tc=tb+T1*0.5f;
+	tc=tb+T2*0.5f;
 	
 	switch(sector){
 		case 1:
@@ -200,7 +206,7 @@ void FOC_CURRENT_LOOP(volatile FocStatus *foc){
 		return;
 	}
 	//三相电流转换成dq电流
-	//clark_Park(foc); 
+		//clark_Park(foc); 
 	clark_Conv(foc);
 	park_Conv(foc);
 	
@@ -210,6 +216,7 @@ void FOC_CURRENT_LOOP(volatile FocStatus *foc){
 	
 	foc->ud=pid_Process(&foc->pid_id,id_error);
 	foc->uq=pid_Process(&foc->pid_iq,iq_error);
+	
 	
 	//逆帕克变换得到ualpha,ubeta
 	anti_Park(foc);
@@ -233,7 +240,7 @@ void FOC_SPEED_LOOP(volatile FocStatus *foc){
 
 /*=======开环=======*/
 void FOC_OPEN_LOOP(volatile FocStatus *foc){
-	
+
 	if(foc->focEnable==0){ //使能为0时，电机停止
 		
 		foc->pwm_a=(uint16_t)(FOC_PWM_ARR*0.5f);

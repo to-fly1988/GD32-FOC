@@ -15,7 +15,7 @@ time:2026
 #include "systick.h"
 
 void foc_adc_init(void);    //ADC初始化，包含GPIO,ADC
-void foc_get_current(void);
+void foc_current_offset(volatile FocStatus *foc);	//采样电流校准
 
 
 

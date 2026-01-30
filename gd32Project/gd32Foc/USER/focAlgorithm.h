@@ -15,8 +15,8 @@
 #define FOC_UDC 7.0f  		//母线电压
 #define FOC_PWM_ARR 1000 	//svpwm的自动重载值（周期）
 #define MAX_SPEED 15000		//电机最大转速
-#define MAX_CURRENT 1.5f	//电机最大工作电流
-#define OFFSET_ANGLE 293.0f 	//偏移角
+#define MAX_CURRENT 1.0f	//电机最大工作电流
+#define OFFSET_ANGLE 322.0f 	//偏移角
 
 typedef struct{
 
@@ -40,6 +40,9 @@ typedef struct{
 	float ia;
 	float ib;
 	float ic;
+	float ia_offset;
+	float ib_offset;
+	
 	float speed;   //当前转速
 	float theta_e; //电角度，电流环用
 	float theta_m; //机械角度，速度环用

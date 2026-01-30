@@ -27,6 +27,25 @@ Project File Date:  01/22/2026
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'D:\keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
+USER/foc_ADC.c(1): warning: In file included from...
+./USER/foc_ADC.h(14): warning: In file included from...
+./USER/focAlgorithm.h(35): warning: padding struct 'FocStatus' with 3 bytes to align 'targetSpeed' [-Wpadded]
+        float targetSpeed; //目标转速
+              ^
+./USER/focAlgorithm.h(66): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_speed' [-Wpadded]
+        PidStatus pid_speed;
+                  ^
+2 warnings generated.
+compiling foc_ADC.c...
+USER/foc_usart.c(1): warning: In file included from...
+./USER/foc_usart.h(17): warning: no newline at end of file [-Wnewline-eof]
+#endif
+      ^
+USER/foc_usart.c(52): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+2 warnings generated.
+compiling foc_usart.c...
 USER/foc_tim_pwm.c(1): warning: In file included from...
 ./USER/foc_tim_pwm.h(10): warning: In file included from...
 ../Firmware/CMSIS/GD/GD32E50x/Include\gd32e50x.h(460): warning: In file included from...
@@ -39,6 +58,12 @@ typedef struct
         ^
 2 warnings generated.
 compiling foc_tim_pwm.c...
+compiling systick.c...
+USER/encoder_spi.c(47): warning: implicit conversion loses integer precision: 'uint16_t' (aka 'unsigned short') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
+        return spi_i2s_data_receive(SPI0);
+        ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+compiling encoder_spi.c...
 USER/main.c(6): warning: In file included from...
 ./USER/foc_usart.h(17): warning: no newline at end of file [-Wnewline-eof]
 #endif
@@ -47,10 +72,10 @@ USER/main.c(4): warning: In file included from...
 ./USER/focAlgorithm.h(35): warning: padding struct 'FocStatus' with 3 bytes to align 'targetSpeed' [-Wpadded]
         float targetSpeed; //目标转速
               ^
-./USER/focAlgorithm.h(63): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_speed' [-Wpadded]
+./USER/focAlgorithm.h(66): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_speed' [-Wpadded]
         PidStatus pid_speed;
                   ^
-USER/main.c(61): warning: unused parameter 'f' [-Wunused-parameter]
+USER/main.c(67): warning: unused parameter 'f' [-Wunused-parameter]
 int fputc(int ch, FILE *f)
                         ^
 USER/main.c(10): warning: no previous extern declaration for non-static variable 'myfoc' [-Wmissing-variable-declarations]
@@ -61,37 +86,14 @@ volatile FocStatus myfoc;
          ^
 5 warnings generated.
 compiling main.c...
-USER/foc_usart.c(1): warning: In file included from...
-./USER/foc_usart.h(17): warning: no newline at end of file [-Wnewline-eof]
-#endif
-      ^
-USER/foc_usart.c(50): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-2 warnings generated.
-compiling foc_usart.c...
-compiling systick.c...
-USER/foc_ADC.c(47): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-USER/foc_ADC.c(44): warning: unused variable 'a' [-Wunused-variable]
-        int a;
-            ^
-2 warnings generated.
-compiling foc_ADC.c...
-USER/encoder_spi.c(47): warning: implicit conversion loses integer precision: 'uint16_t' (aka 'unsigned short') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-        return spi_i2s_data_receive(SPI0);
-        ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~
-1 warning generated.
-compiling encoder_spi.c...
 USER/focAlgorithm.c(1): warning: In file included from...
 ./USER/focAlgorithm.h(35): warning: padding struct 'FocStatus' with 3 bytes to align 'targetSpeed' [-Wpadded]
         float targetSpeed; //目标转速
               ^
-./USER/focAlgorithm.h(63): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_speed' [-Wpadded]
+./USER/focAlgorithm.h(66): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_speed' [-Wpadded]
         PidStatus pid_speed;
                   ^
-USER/focAlgorithm.c(26): warning: unused function 'clark_Park' [-Wunused-function]
+USER/focAlgorithm.c(31): warning: unused function 'clark_Park' [-Wunused-function]
 static void clark_Park(volatile FocStatus *foc){
             ^
 3 warnings generated.
@@ -113,19 +115,19 @@ compiling focAlgorithm.c...
 ./USER\focAlgorithm.h(35): warning: padding struct 'FocStatus' with 3 bytes to align 'targetSpeed' [-Wpadded]
         float targetSpeed; //目标转速
               ^
-./USER\focAlgorithm.h(63): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_speed' [-Wpadded]
+./USER\focAlgorithm.h(66): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_speed' [-Wpadded]
         PidStatus pid_speed;
                   ^
 6 warnings generated.
 compiling gd32e50x_it.c...
 compiling system_gd32e50x.c...
 assembling startup_gd32e50x_hd.s...
-compiling gd32e50x_gpio.c...
 ../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_misc.c(115): warning: function 'nvic_system_reset' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
 {
 ^
 1 warning generated.
 compiling gd32e50x_misc.c...
+compiling gd32e50x_gpio.c...
 ../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_rcu.c(1102): warning: default label in switch which covers all enumeration values [-Wcovered-switch-default]
     default:
     ^
@@ -143,15 +145,6 @@ compiling gd32e50x_misc.c...
  ^
 5 warnings generated.
 compiling gd32e50x_rcu.c...
-../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_spi.c(747): warning: no previous prototype for function 'spi_quad_output_enable' [-Wmissing-prototypes]
-void spi_quad_output_enable(uint32_t spi_periph)
-     ^
-../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_spi.c(747): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void spi_quad_output_enable(uint32_t spi_periph)
-^
-static 
-1 warning generated.
-compiling gd32e50x_spi.c...
 ../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_timer.c(35): warning: In file included from...
 ../Firmware/GD32E50x_standard_peripheral/Include\gd32e50x_timer.h(265): warning: padding struct 'timer_parameter_struct' with 2 bytes to align 'period' [-Wpadded]
     uint32_t period;                                         /*!< period value */
@@ -161,6 +154,15 @@ typedef struct
         ^
 2 warnings generated.
 compiling gd32e50x_timer.c...
+../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_spi.c(747): warning: no previous prototype for function 'spi_quad_output_enable' [-Wmissing-prototypes]
+void spi_quad_output_enable(uint32_t spi_periph)
+     ^
+../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_spi.c(747): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void spi_quad_output_enable(uint32_t spi_periph)
+^
+static 
+1 warning generated.
+compiling gd32e50x_spi.c...
 compiling gd32e50x_adc.c...
 ../Firmware/GD32E50x_standard_peripheral/Source/gd32e50x_usart.c(1075): warning: default label in switch which covers all enumeration values [-Wcovered-switch-default]
     default:
@@ -171,7 +173,7 @@ compiling gd32e50x_adc.c...
 2 warnings generated.
 compiling gd32e50x_usart.c...
 linking...
-Program Size: Code=8336 RO-data=480 RW-data=8 ZI-data=1160  
+Program Size: Code=8480 RO-data=480 RW-data=8 ZI-data=1168  
 ".\Objects\gd32Foc.axf" - 0 Error(s), 32 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -195,7 +197,7 @@ Package Vendor: GigaDevice
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

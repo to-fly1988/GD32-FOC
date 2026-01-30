@@ -28,9 +28,9 @@ void usart1_send_byte(uint8_t data_byte){
 
 }
 
-void vofa_send_data(float ch1, float ch2,float ch3,float ch4,float ch5,float ch6, float ch7){
+void vofa_send_data(float ch1, float ch2,float ch3,float ch4,float ch5,float ch6, float ch7,float ch8,float ch9){
 
-	float send_data[7];
+	float send_data[9];
 	send_data[0]=ch1;
 	send_data[1]=ch2;
 	send_data[2]=ch3;
@@ -38,6 +38,8 @@ void vofa_send_data(float ch1, float ch2,float ch3,float ch4,float ch5,float ch6
 	send_data[4]=ch5;
 	send_data[5]=ch6;
 	send_data[6]=ch7;
+	send_data[7]=ch8;
+	send_data[8]=ch9;
 
 	uint8_t *p = (uint8_t *)send_data;
   for (uint16_t i = 0; i < sizeof(send_data); i++) {
