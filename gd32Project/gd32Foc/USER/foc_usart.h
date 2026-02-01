@@ -12,6 +12,7 @@ time:2026
 
 void usart1_init(void);
 void usart1_send_byte(uint8_t data_byte);
+void usart1_rx_dma_init(void);
 void vofa_send_data(float ch1, float ch2,float ch3,float ch4,float ch5,float ch6, float ch7,float ch8,float ch9);
 
 #endif

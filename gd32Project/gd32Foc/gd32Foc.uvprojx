@@ -484,6 +484,11 @@
               <FileType>1</FileType>
               <FilePath>..\Firmware\GD32E50x_standard_peripheral\Source\gd32e50x_spi.c</FilePath>
             </File>
+            <File>
+              <FileName>gd32e50x_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FMW_PERI\gd32e50x_dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

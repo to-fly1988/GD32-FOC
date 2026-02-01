@@ -21,6 +21,25 @@ void usart1_init(void){
 
 }
 
+void usart1_rx_dma_init(void){
+
+	rcu_periph_clock_enable(RCU_DMA0);
+	dma_parameter_struct dma0_init_struct;
+	
+	dma_deinit(DMA0,DMA_CH5);
+	dma0_init_struct.direction=DMA_PERIPHERAL_TO_MEMORY;	//数据传输方向
+	dma0_init_struct.periph_addr=(uint32_t)&USART_DATA(USART1);	//外设基地址
+	dma0_init_struct.memory_addr=;
+	dma0_init_struct.periph_inc=DMA_MEMORY_INCREASE_ENABLE;	//外设地址生成增量模式
+	dma0_init_struct.memory_inc=DMA_MEMORY_INCREASE_ENABLE;	//存储器地址生成增量模式
+	dma0_init_struct.periph_width=DMA_MEMORY_WIDTH_8BIT;	//外设数据传输宽度
+	dma0_init_struct.memory_width=DMA_MEMORY_WIDTH_8BIT;	//存储器数据传输宽度
+	
+	
+	
+
+}
+
 void usart1_send_byte(uint8_t data_byte){
 
 	while(RESET==usart_flag_get(USART1,USART_FLAG_TBE));
