@@ -1,4 +1,5 @@
 #include "focAlgorithm.h"
+#include "foc_tim_pwm.h"
 
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){

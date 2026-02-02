@@ -38,5 +38,4 @@
   ..\..\GD32E50x_Firmware_Library_V1.6.1\Template\systick.h \
   USER\foc_ADC.h D:\keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   USER\focAlgorithm.h D:\keil_v5\ARM\ARMCLANG\Bin\..\include\math.h \
-  USER\foc_tim_pwm.h BSP\systick.h USER\encoder_spi.h \
-  USER\focAlgorithm.h
+  BSP\systick.h USER\encoder_spi.h USER\focAlgorithm.h USER\foc_usart.h

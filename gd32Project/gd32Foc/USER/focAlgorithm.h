@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 #include <math.h>
-#include "foc_tim_pwm.h"
+
 
 #define SQRT3 1.73205f 		//根号三的数值
 #define FOC_UDC 7.0f  		//母线电压

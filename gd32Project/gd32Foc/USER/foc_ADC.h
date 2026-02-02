@@ -9,8 +9,6 @@ time:2026
 
 #include "gd32e50x.h"
 #include <stdio.h>
-#include "gd32e50x_timer.h"
-#include "gd32e50x_adc.h"
 #include "focAlgorithm.h"
 #include "systick.h"
 

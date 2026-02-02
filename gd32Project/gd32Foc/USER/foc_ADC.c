@@ -1,4 +1,5 @@
 #include "foc_ADC.h"
+#include "gd32e50x_adc.h"
 
 
 void foc_adc_init(void){

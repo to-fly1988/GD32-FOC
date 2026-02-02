@@ -1,4 +1,5 @@
-./objects/foc_adc.o: USER\foc_ADC.c USER\foc_ADC.h \
+./objects/gd32e50x_dma.o: FMW_PERI\gd32e50x_dma.c \
+  ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_dma.h \
   ..\Firmware\CMSIS\GD\GD32E50x\Include\gd32e50x.h \
   ..\Firmware\CMSIS\core_cm33.h \
   D:\keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
@@ -14,7 +15,6 @@
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_ctc.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_dac.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_dbg.h \
-  ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_dma.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_exmc.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_exti.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_fmc.h \
@@ -32,5 +32,4 @@
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_wwdgt.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sqpi.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sdio.h \
-  D:\keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h USER\focAlgorithm.h \
-  D:\keil_v5\ARM\ARMCLANG\Bin\..\include\math.h BSP\systick.h
+  D:\keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h

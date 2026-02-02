@@ -13,9 +13,9 @@
 #include "systick.h"
 #include "gd32e50x_spi.h"
 
-void foc_spi_init(void);		//spi初始化
-uint8_t read_spi_byte(void);		//读取spi接收值
-float read_encoder_ssi(void);	//读取编码器值
+void foc_spi_init(void);				//spi初始化
+uint8_t read_spi_byte(void);		//读取spi接收值,原始数据
+float read_encoder_ssi(void);		//读取编码器值,返回角度值
 
 
 #endif

@@ -16,6 +16,7 @@
 ".\objects\gd32e50x_adc.o"
 ".\objects\gd32e50x_usart.o"
 ".\objects\gd32e50x_spi.o"
+".\objects\gd32e50x_dma.o"
 --library_type=microlib --strict --scatter ".\Objects\gd32Foc.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
