@@ -1,6 +1,12 @@
+/******
+@filename:foc_usart.c
+@author:tofly Choo
+@version:2026-02-03
+******/
+
 #include "foc_usart.h"
 
-__attribute__((aligned(4))) uint8_t u1_rx_buffer[RX_BUFFER_SIZE];
+__attribute__((aligned(4))) uint8_t u1_rx_buffer[RX_BUFFER_SIZE];					//内存地址对齐四字节
 
 void usart1_init(void){
 
@@ -25,9 +31,9 @@ void usart1_init(void){
 	nvic_irq_enable(USART1_IRQn,0,2);														//配置中断优先级
 	
 	usart_enable(USART1);																				//使能串口
-	
 
 }
+
 
 void usart1_rx_dma_init(void){
 	/*usart1_rx<---->dma0_ch5*/
@@ -53,6 +59,8 @@ void usart1_rx_dma_init(void){
 	
 }
 
+
+/*调用串口发送数据*/
 void usart1_send_byte(uint8_t data_byte){
 
 	while(RESET==usart_flag_get(USART1,USART_FLAG_TBE));
@@ -60,6 +68,8 @@ void usart1_send_byte(uint8_t data_byte){
 
 }
 
+
+/*旧版发送justfloat格式数据*/
 void vofa_send_data(float ch1, float ch2,float ch3,float ch4,float ch5,float ch6, float ch7,float ch8,float ch9){
 
 	float send_data[9];
@@ -75,13 +85,37 @@ void vofa_send_data(float ch1, float ch2,float ch3,float ch4,float ch5,float ch6
 
 	uint8_t *p = (uint8_t *)send_data;
   for (uint16_t i = 0; i < sizeof(send_data); i++) {
-    usart1_send_byte(p[i]); // 调用你的串口重定向底层函数
+    usart1_send_byte(p[i]); // 调用串口重定向底层函数
     }
 	usart1_send_byte(0x00);
 	usart1_send_byte(0x00);
 	usart1_send_byte(0x80);
 	usart1_send_byte(0x7F);
 }
+
+
+/*新版发送justfloat格式数据，使用数组形式，优化了增删改数据功能*/
+void vofa_send_array(float *data,uint8_t num){
+	
+	/*定义联合体，方便浮点数转成字节形式发送*/
+	FloatToByte conv_data;
+
+	/*按字节发送数据*/
+	for(uint8_t i=0;i<num;i++){
+		conv_data.f=data[i];
+		usart1_send_byte(conv_data.b[0]);
+		usart1_send_byte(conv_data.b[1]);
+		usart1_send_byte(conv_data.b[2]);
+		usart1_send_byte(conv_data.b[3]);
+	}
+	
+	/*发送帧尾*/
+	usart1_send_byte(0x00);
+	usart1_send_byte(0x00);
+	usart1_send_byte(0x80);
+	usart1_send_byte(0x7F);
+}
+
 
 /*串口接收的指令解析*/
 void cmd_rx_decode(uint8_t cmd,float value,volatile FocStatus *foc){
