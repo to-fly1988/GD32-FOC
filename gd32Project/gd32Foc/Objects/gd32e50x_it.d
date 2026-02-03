@@ -35,6 +35,7 @@
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sqpi.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sdio.h \
   ..\..\GD32E50x_Firmware_Library_V1.6.1\Template\main.h \
+  D:\keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
   ..\..\GD32E50x_Firmware_Library_V1.6.1\Template\systick.h \
   USER\foc_ADC.h D:\keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   USER\focAlgorithm.h D:\keil_v5\ARM\ARMCLANG\Bin\..\include\math.h \

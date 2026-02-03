@@ -1,6 +1,6 @@
 Dependencies for Project 'gd32Foc', Target 'Target 1': (DO NOT MODIFY !)
 CompilerVersion: 6160000::V6.16::ARMCLANG
-F (.\USER\main.c)(0x6980A127)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/main.o -MD)
+F (.\USER\main.c)(0x6981F850)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/main.o -MD)
 I (..\Firmware\CMSIS\GD\GD32E50x\Include\gd32e50x.h)(0x694928D6)
 I (..\Firmware\CMSIS\core_cm33.h)(0x686F2EBE)
 I (D:\keil_v5\ARM\ARMCLANG\include\stdint.h)(0x603507D0)
@@ -40,11 +40,11 @@ I (BSP\systick.h)(0x686F2EC0)
 I (USER\focAlgorithm.h)(0x69806D98)
 I (D:\keil_v5\ARM\ARMCLANG\include\math.h)(0x603507CA)
 I (USER\foc_tim_pwm.h)(0x6971D702)
-I (USER\foc_usart.h)(0x6980A41C)
+I (USER\foc_usart.h)(0x6981BCC0)
 I (USER\main.h)(0x686F2EC0)
 I (USER\foc_ADC.h)(0x69806E8B)
 I (USER\encoder_spi.h)(0x69806EFF)
-F (.\USER\focAlgorithm.c)(0x69806DA9)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/focalgorithm.o -MD)
+F (.\USER\focAlgorithm.c)(0x6981E920)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/focalgorithm.o -MD)
 I (USER\focAlgorithm.h)(0x69806D98)
 I (D:\keil_v5\ARM\ARMCLANG\include\stdint.h)(0x603507D0)
 I (D:\keil_v5\ARM\ARMCLANG\include\math.h)(0x603507CA)
@@ -123,8 +123,8 @@ I (D:\keil_v5\ARM\ARMCLANG\include\stdio.h)(0x603507D4)
 I (USER\focAlgorithm.h)(0x69806D98)
 I (D:\keil_v5\ARM\ARMCLANG\include\math.h)(0x603507CA)
 I (BSP\systick.h)(0x686F2EC0)
-F (.\USER\foc_usart.c)(0x6980A407)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/foc_usart.o -MD)
-I (USER\foc_usart.h)(0x6980A41C)
+F (.\USER\foc_usart.c)(0x6981B240)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/foc_usart.o -MD)
+I (USER\foc_usart.h)(0x6981BCC0)
 I (..\Firmware\CMSIS\GD\GD32E50x\Include\gd32e50x.h)(0x694928D6)
 I (..\Firmware\CMSIS\core_cm33.h)(0x686F2EBE)
 I (D:\keil_v5\ARM\ARMCLANG\include\stdint.h)(0x603507D0)
@@ -277,7 +277,7 @@ I (..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_wwdgt.h)(0x686F2EBF
 I (..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sqpi.h)(0x686F2EBE)
 I (..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sdio.h)(0x686F2EBE)
 I (BSP\systick.h)(0x686F2EC0)
-F (..\..\GD32E50x_Firmware_Library_V1.6.1\Template\gd32e50x_it.c)(0x6980A259)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/gd32e50x_it.o -MD)
+F (..\..\GD32E50x_Firmware_Library_V1.6.1\Template\gd32e50x_it.c)(0x6981E8DD)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/gd32e50x_it.o -MD)
 I (..\..\GD32E50x_Firmware_Library_V1.6.1\Template\gd32e50x_it.h)(0x69805616)
 I (..\Firmware\CMSIS\GD\GD32E50x\Include\gd32e50x.h)(0x694928D6)
 I (..\Firmware\CMSIS\core_cm33.h)(0x686F2EBE)
@@ -314,6 +314,7 @@ I (..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_wwdgt.h)(0x686F2EBF
 I (..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sqpi.h)(0x686F2EBE)
 I (..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sdio.h)(0x686F2EBE)
 I (..\..\GD32E50x_Firmware_Library_V1.6.1\Template\main.h)(0x69685FAC)
+I (D:\keil_v5\ARM\ARMCLANG\include\string.h)(0x603507D0)
 I (..\..\GD32E50x_Firmware_Library_V1.6.1\Template\systick.h)(0x686F2EC0)
 I (USER\foc_ADC.h)(0x69806E8B)
 I (D:\keil_v5\ARM\ARMCLANG\include\stdio.h)(0x603507D4)
@@ -321,7 +322,7 @@ I (USER\focAlgorithm.h)(0x69806D98)
 I (D:\keil_v5\ARM\ARMCLANG\include\math.h)(0x603507CA)
 I (BSP\systick.h)(0x686F2EC0)
 I (USER\encoder_spi.h)(0x69806EFF)
-I (USER\foc_usart.h)(0x6980A41C)
+I (USER\foc_usart.h)(0x6981BCC0)
 F (..\Firmware\CMSIS\GD\GD32E50x\Source\system_gd32e50x.c)(0x686F2EBE)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfpu=fpv5-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O1 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ./USER -I ./BSP -I ../Firmware/CMSIS -I ../Firmware/GD32E50x_standard_peripheral/Include -I ../Firmware/CMSIS/GD/GD32E50x/Include -I D:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-I./RTE/_Target_1-ID:/keil_v5/Packs/ARM/CMSIS/5.8.0/CMSIS/Core/Include-ID:/keil_v5/Packs/GigaDevice/GD32E50x_DFP/1.3.2/Device/Include-D__UVISION_VERSION="536" -D_RTE_ -DGD32E50x_HD -D_RTE_ -DGD32E50X -DGD32E50X_HD -DUSE_STDPERIPH_DRIVER-o ./objects/system_gd32e50x.o -MD)
 I (..\Firmware\CMSIS\GD\GD32E50x\Include\gd32e50x.h)(0x694928D6)
 I (..\Firmware\CMSIS\core_cm33.h)(0x686F2EBE)

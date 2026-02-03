@@ -29,8 +29,8 @@ foc_adc_init();
 
 //printf("start ok");
 /*foc初始参数*/
-//myfoc.ud=0.5f;
-myfoc.uq=0;
+myfoc.ud=0;
+myfoc.uq=1.5f;
 FOC_Init(&myfoc);		//参数初始化
 foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
 
@@ -40,31 +40,34 @@ foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准
 //myfoc.targetSpeed=2000;//设定参考转速
 myfoc.focEnable=1; 
 
-/*串口待发送数据*/
-float tx_data[]={
 
-	myfoc.speed,
-	myfoc.targetSpeed,
-	myfoc.ia,
-	myfoc.ib,
-	myfoc.ic,
-	myfoc.id,
-	myfoc.iq,
-	myfoc.pid_speed.integral,
-	myfoc.pid_iq.integral
-};
 
 
 while(1)
 	{
-		
+		/*串口待发送数据*/
+		float tx_data[]={
+
+			myfoc.speed,
+	//		myfoc.theta_m,
+			//myfoc.targetSpeed,
+			myfoc.ia,
+			myfoc.ib,
+			myfoc.ic,
+//			myfoc.id,
+//			myfoc.iq,
+			myfoc.i_alpha,
+			myfoc.i_beta
+//			myfoc.pid_speed.integral,
+//			myfoc.pid_iq.integral
+		};
 		vofa_send_array(tx_data,sizeof(tx_data)/sizeof(float));
-		//vofa_send_data(myfoc.speed,myfoc.theta_m,myfoc.ia,myfoc.ib,myfoc.ic,myfoc.id,myfoc.iq,myfoc.pid_speed.integral,myfoc.pid_iq.integral);
+		//vofa_send_data(myfoc.speed,myfoc.targetSpeed,myfoc.ia,myfoc.ib,myfoc.ic,myfoc.id,myfoc.iq,myfoc.pid_speed.integral,myfoc.pid_iq.integral);
 		//vofa_send_data(myfoc.speed,myfoc.theta_m,myfoc.ia,myfoc.ib,myfoc.ic,myfoc.id,myfoc.iq,myfoc.i_alpha,myfoc.i_beta);
 //		printf("%.3f\n",myfoc.theta_m);
 //		printf("speed=%.3f\n",myfoc.speed);
 		//printf("hello\n");
-		delay_1ms(2);	
+		delay_1ms(10);	
 }
 	
 }

@@ -14,25 +14,13 @@ time:2026
 #define RX_BUFFER_SIZE 32
 extern uint8_t u1_rx_buffer[RX_BUFFER_SIZE];
 
-typedef struct{
-	uint8_t header;		//帧头
-	uint8_t cmd_code;	//功能码
-	
-	/*负载数据的联合体*/
-	union{
-		float 		f_value;
-		uint32_t 	value;
-		uint8_t		byte_value;
-	} payload;
-	
-	uint8_t footer;		//帧尾
-
-} RX_Frame;
 
 typedef union{
 	float f;
 	uint8_t b[4];
 }FloatToByte;
+
+extern volatile uint32_t rx_len;
 
 void usart1_init(void);
 void usart1_send_byte(uint8_t data_byte);

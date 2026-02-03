@@ -6,7 +6,8 @@
 
 #include "foc_usart.h"
 
-__attribute__((aligned(4))) uint8_t u1_rx_buffer[RX_BUFFER_SIZE];					//内存地址对齐四字节
+__attribute__((aligned(4))) uint8_t u1_rx_buffer[RX_BUFFER_SIZE];					//数组起始地址对齐四字节
+volatile uint32_t rx_len=0;
 
 void usart1_init(void){
 
@@ -44,8 +45,8 @@ void usart1_rx_dma_init(void){
 	dma0_init_struct.direction=DMA_PERIPHERAL_TO_MEMORY;				//数据传输方向
 	dma0_init_struct.periph_addr=(uint32_t)&USART_DATA(USART1);	//外设基地址
 	dma0_init_struct.memory_addr=(uint32_t)u1_rx_buffer;				//存储器基地址
-	dma0_init_struct.periph_inc=DMA_MEMORY_INCREASE_ENABLE;			//外设地址生成增量模式
-	dma0_init_struct.memory_inc=DMA_MEMORY_INCREASE_DISABLE;		//禁用存储器地址生成增量模式
+	dma0_init_struct.periph_inc=DMA_MEMORY_INCREASE_DISABLE;		//外设地址生成增量模式
+	dma0_init_struct.memory_inc=DMA_MEMORY_INCREASE_ENABLE;			//存储器地址生成增量模式
 	dma0_init_struct.periph_width=DMA_MEMORY_WIDTH_8BIT;				//外设数据传输宽度
 	dma0_init_struct.memory_width=DMA_MEMORY_WIDTH_8BIT;				//存储器数据传输宽度
 	
