@@ -30,7 +30,7 @@ foc_adc_init();
 //printf("start ok");
 /*foc初始参数*/
 myfoc.ud=0;
-myfoc.uq=1.5f;
+myfoc.uq=0;
 FOC_Init(&myfoc);		//参数初始化
 foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
 
@@ -50,16 +50,19 @@ while(1)
 
 			myfoc.speed,
 	//		myfoc.theta_m,
-			//myfoc.targetSpeed,
-			myfoc.ia,
-			myfoc.ib,
-			myfoc.ic,
-//			myfoc.id,
-//			myfoc.iq,
-			myfoc.i_alpha,
-			myfoc.i_beta
-//			myfoc.pid_speed.integral,
-//			myfoc.pid_iq.integral
+			myfoc.targetSpeed,
+//			myfoc.ia,
+//			myfoc.ib,
+//			myfoc.ic,
+			myfoc.id,
+			myfoc.iq,
+			//myfoc.target_id,
+//			myfoc.target_iq,
+//			myfoc.i_alpha,
+//			myfoc.i_beta
+			myfoc.pid_speed.integral,
+			//myfoc.pid_id.integral,
+			myfoc.pid_iq.integral
 		};
 		vofa_send_array(tx_data,sizeof(tx_data)/sizeof(float));
 		//vofa_send_data(myfoc.speed,myfoc.targetSpeed,myfoc.ia,myfoc.ib,myfoc.ic,myfoc.id,myfoc.iq,myfoc.pid_speed.integral,myfoc.pid_iq.integral);

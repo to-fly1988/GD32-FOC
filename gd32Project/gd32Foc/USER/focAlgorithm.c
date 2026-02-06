@@ -10,18 +10,18 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->target_iq=0;
 	
 	/*PID参数初始化*/
-	foc->pid_id.kp=0.3f;
-	foc->pid_id.ki=0.001f;
+	foc->pid_id.kp=0.1f;
+	foc->pid_id.ki=0.01f;
 	foc->pid_id.integral=0;
 	foc->pid_id.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1	
 	
-	foc->pid_iq.kp=0.3f;
-	foc->pid_iq.ki=0.001f;
+	foc->pid_iq.kp=0.1f;
+	foc->pid_iq.ki=0.0005f;
 	foc->pid_iq.integral=0;
 	foc->pid_iq.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1
 	
 	foc->pid_speed.kp=0.001f;
-	foc->pid_speed.ki=0.00001f;
+	foc->pid_speed.ki=0.0001f;
 	foc->pid_speed.integral=0;
 	foc->pid_speed.out_limit=MAX_CURRENT;
 		
