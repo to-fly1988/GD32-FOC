@@ -49,7 +49,7 @@ while(1)
 		float tx_data[]={
 
 			myfoc.speed,
-	//		myfoc.theta_m,
+			myfoc.theta_m,
 			myfoc.targetSpeed,
 //			myfoc.ia,
 //			myfoc.ib,

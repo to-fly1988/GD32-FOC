@@ -57,4 +57,13 @@ void PendSV_Handler(void);
 /* this function handles SysTick exception */
 void SysTick_Handler(void);
 
+/*这是ADC中断的函数入口*/
+void ADC0_1_IRQHandler(void);
+
+/*这是timer1中断函数入口*/
+void TIMER1_IRQHandler(void);
+
+/*串口1中断函数入口*/
+void USART1_IRQHandler(void);
+
 #endif /* GD32E50X_IT_H */

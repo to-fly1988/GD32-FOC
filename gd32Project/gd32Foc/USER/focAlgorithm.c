@@ -4,6 +4,7 @@
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
+	foc->targetAngle=180;
 	foc->targetSpeed=500;
 	
 	foc->target_id=0;
@@ -24,7 +25,11 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->pid_speed.ki=0.0001f;
 	foc->pid_speed.integral=0;
 	foc->pid_speed.out_limit=MAX_CURRENT;
-		
+	
+	foc->pid_position.kp=0.1f;
+	foc->pid_position.ki=0;
+	foc->pid_position.integral=0;
+	foc->pid_position.out_limit=MAX_SPEED;
 	
 }
 
@@ -236,6 +241,14 @@ void FOC_SPEED_LOOP(volatile FocStatus *foc){
 	//速度环PID计算
 	float speed_error=foc->targetSpeed-foc->speed;
 	foc->target_iq=pid_Process(&foc->pid_speed,speed_error);
+
+}
+
+/*======位置环部分=======*/
+void FOC_POSITION_LOOP(volatile FocStatus *foc){
+
+	float position_error=foc->targetAngle-foc->theta_m;
+	foc->targetSpeed=pid_Process(&foc->pid_position,position_error);
 
 }
 
