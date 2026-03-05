@@ -135,9 +135,14 @@ void cmd_rx_decode(uint8_t cmd,float value,volatile FocStatus *foc){
 			foc->target_iq=value;
 			break;
 		
+		case 0x04:
+			foc->targetAngle=value;
+			break;
+		
 		case 0xA1:
 			foc->pid_speed.kp=value;
 			break;
+		
 		case 0xA2:
 			foc->pid_speed.ki=value;
 			break;
