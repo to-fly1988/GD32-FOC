@@ -200,6 +200,17 @@ static void svpwm_Generate(volatile FocStatus *foc){
 		
 }
 
+/***饱和函数***/
+static float SMC_Sat(float s, float delta){
+	if(s>delta){
+	return 1.0f;}
+	else if(s<delta){
+	return -1.0f;}
+	else
+	{return s/delta;}
+}
+/*************/
+
 
 //============FOC速度电流环运行程序================
 //代码在中断中调用
