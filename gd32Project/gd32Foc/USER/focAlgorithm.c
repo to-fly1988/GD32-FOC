@@ -4,8 +4,8 @@
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
-	foc->targetAngle=0;
-	foc->targetSpeed=500;
+	//foc->targetAngle=0;
+	foc->targetSpeed=1000;
 	
 	foc->target_id=0;
 	foc->target_iq=0;
@@ -26,10 +26,10 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->pid_speed.integral=0;
 	foc->pid_speed.out_limit=MAX_CURRENT;
 	
-	foc->pid_position.kp=1;
+	foc->pid_position.kp=1.0f;
 	foc->pid_position.ki=0;
 	foc->pid_position.integral=0;
-	foc->pid_position.out_limit=MAX_SPEED;
+	foc->pid_position.out_limit=MAX_SPEED/100;
 	
 }
 

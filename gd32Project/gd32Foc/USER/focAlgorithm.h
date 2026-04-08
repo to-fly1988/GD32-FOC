@@ -27,6 +27,12 @@ typedef struct{
 	
 }PidStatus;
 
+typedef struct
+{
+	float c;
+	float kt;
+	float delta;
+}Smcstatus;
 
 //========================foc中所有状态值的结构体变量===========
 typedef struct{
