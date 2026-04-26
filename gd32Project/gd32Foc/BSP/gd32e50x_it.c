@@ -105,6 +105,9 @@ void SysTick_Handler(void)
 }
 
 
+/*!
+ 电流环中断函数
+ */
 extern volatile FocStatus myfoc;
 extern volatile float temp_angle;
 
@@ -127,7 +130,7 @@ void ADC0_1_IRQHandler(void){
 		/*读编码器，电角度更新*/
 		//myfoc.theta_e=read_encoder_ssi()*0.017453f*1;	//第一个数字，转化为弧度制；第二个乘的数字为极对数
 		//myfoc.theta_e=293.0f-OFFSET_ANGLE;
-		myfoc.theta_e=read_encoder_ssi()-OFFSET_ANGLE;
+		myfoc.theta_e=read_kongxin_spi()-OFFSET_ANGLE;
 		if (myfoc.theta_e < 0) {
 			myfoc.theta_e += 360.0f;
 		} else if (myfoc.theta_e >= 360.0f) {
@@ -144,14 +147,17 @@ void ADC0_1_IRQHandler(void){
 }
 
 
-
+/*!
+ 速度环和位置环中断
+ */
 void TIMER1_IRQHandler(void){
 	  static uint8_t time_count=0;	//计数次数，每10次触发一次位置环计算
 		time_count++;
 		timer_interrupt_flag_clear(TIMER1,TIMER_INT_FLAG_UP);	//清除中断标志位
 		
 		/*读编码器并计算速度值RPM*/
-		float angle=read_encoder_ssi();
+		//float angle=read_encoder_ssi();
+		float angle=read_kongxin_spi();		//读取空心杯电机的角度值
 		float delta_angle=angle-myfoc.theta_m;
 		if (delta_angle > 180.0f) {
 				delta_angle -= 360.0f;

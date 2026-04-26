@@ -6,9 +6,9 @@ void foc_spi_init(void){
 	rcu_periph_clock_enable(RCU_GPIOA);
 	rcu_periph_clock_enable(RCU_AF);
 	rcu_periph_clock_enable(RCU_SPI0);
-	gpio_init(GPIOA,GPIO_MODE_OUT_PP,GPIO_OSPEED_50MHZ,GPIO_PIN_4);				//PA4--->SPI0-NSS
-	gpio_init(GPIOA,GPIO_MODE_AF_PP,GPIO_OSPEED_50MHZ,GPIO_PIN_5);				//PA5--->SPI0-SCK
-	gpio_init(GPIOA,GPIO_MODE_IN_FLOATING,GPIO_OSPEED_50MHZ,GPIO_PIN_6);	//PA6--->SPI0-MISO
+	gpio_init(GPIOA,GPIO_MODE_OUT_PP,GPIO_OSPEED_50MHZ,GPIO_PIN_4);			//PA4--->SPI0-NSS
+	gpio_init(GPIOA,GPIO_MODE_AF_PP,GPIO_OSPEED_50MHZ,GPIO_PIN_5);			//PA5--->SPI0-SCK
+	gpio_init(GPIOA,GPIO_MODE_IN_FLOATING,GPIO_OSPEED_50MHZ,GPIO_PIN_6);		//PA6--->SPI0-MISO
 	/*MCU不向编码器发送数据，无需配置MOSI*/
 	
 	/*SPI配置*/
@@ -62,6 +62,21 @@ float read_encoder_ssi(void){
 	raw_angle=(raw_rx>>9)&0x3FFF;				//移位只读取角度值
 	//printf("rawangle=%d\n",raw_angle);
 	float angle=raw_angle*360.0f/16384.0f;
-//	printf("rx_encoder=%.3f\n",rx_encoder);
+	//printf("rx_encoder=%.3f\n",rx_encoder);
 	return angle;
+}
+
+float read_kongxin_spi(void)
+{
+	uint8_t rx1,rx2;
+	uint16_t raw_rx;
+	float raw_angle;
+	gpio_bit_reset(GPIOA,GPIO_PIN_4);
+	for(volatile int i=0;i<50;i++);
+	rx1=read_spi_byte();
+	rx2=read_spi_byte();
+	gpio_bit_set(GPIOA,GPIO_PIN_4);
+	raw_rx=((uint16_t)rx1 << 8) | rx2;
+	raw_angle=raw_rx*360.0f/65536.0f;
+	return raw_angle;
 }
