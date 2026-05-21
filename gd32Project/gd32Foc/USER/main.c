@@ -45,12 +45,14 @@ usart1_init();
 
 while(1)
 	{
-	myfoc.theta_m=read_kongxin_spi();
+		
+	//myfoc.theta_m=read_kongxin_spi();
+  float thm=read_soft_spi_kth7112();
 		/*串口待发送数据*/
 		float tx_data[]={
-
+				thm,
 			// myfoc.speed,
-			myfoc.theta_m,
+			//myfoc.theta_m,
 //			myfoc.targetAngle,
 //			myfoc.targetSpeed,
 //			myfoc.ia,

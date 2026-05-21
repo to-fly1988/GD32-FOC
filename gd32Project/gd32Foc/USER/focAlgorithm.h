@@ -12,11 +12,11 @@
 
 
 #define SQRT3        1.73205f //根号三的数值
-#define FOC_UDC      7.0f  		//母线电压
+// #define FOC_UDC      8.0f  		//母线电压
 #define FOC_PWM_ARR  1000 	  //svpwm的自动重载值（周期）
-#define MAX_SPEED    5000		  //电机最大转速
-#define MAX_CURRENT  1.0f	    //电机最大工作电流
-#define OFFSET_ANGLE 322.0f 	//偏移角
+// #define MAX_SPEED    5000		  //电机最大转速
+// #define MAX_CURRENT  1.0f	    //电机最大工作电流
+// #define OFFSET_ANGLE 322.0f 	//偏移角
 
 typedef struct{
 

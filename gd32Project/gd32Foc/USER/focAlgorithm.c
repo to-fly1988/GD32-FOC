@@ -1,5 +1,6 @@
 #include "focAlgorithm.h"
 #include "foc_tim_pwm.h"
+#include "motor_config.h"
 
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
@@ -11,22 +12,22 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->target_iq=0;
 	
 	/*PID参数初始化*/
-	foc->pid_id.kp=0.1f;
-	foc->pid_id.ki=0.01f;
+	foc->pid_id.kp=MOTOR_PID_ID_KP;
+	foc->pid_id.ki=MOTOR_PID_ID_KI;
 	foc->pid_id.integral=0;
 	foc->pid_id.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1	
 	
-	foc->pid_iq.kp=0.1f;
-	foc->pid_iq.ki=0.0005f;
+	foc->pid_iq.kp=MOTOR_PID_IQ_KP;
+	foc->pid_iq.ki=MOTOR_PID_IQ_KI;
 	foc->pid_iq.integral=0;
 	foc->pid_iq.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1
 	
-	foc->pid_speed.kp=0.001f;
-	foc->pid_speed.ki=0.0001f;
+	foc->pid_speed.kp=MOTOR_PID_SPEED_KP;
+	foc->pid_speed.ki=MOTOR_PID_SPEED_KI;
 	foc->pid_speed.integral=0;
 	foc->pid_speed.out_limit=MAX_CURRENT;
 	
-	foc->pid_position.kp=1.0f;
+	foc->pid_position.kp=MOTOR_PID_POS_KP;
 	foc->pid_position.ki=0;
 	foc->pid_position.integral=0;
 	foc->pid_position.out_limit=MAX_SPEED/100;

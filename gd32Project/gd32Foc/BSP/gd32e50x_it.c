@@ -40,6 +40,7 @@ OF SUCH DAMAGE.
 #include "encoder_spi.h"
 #include "focAlgorithm.h"
 #include "foc_usart.h"
+#include "motor_config.h"
 
 
 
@@ -128,16 +129,13 @@ void ADC0_1_IRQHandler(void){
 	
 		
 		/*读编码器，电角度更新*/
-		//myfoc.theta_e=read_encoder_ssi()*0.017453f*1;	//第一个数字，转化为弧度制；第二个乘的数字为极对数
-		//myfoc.theta_e=293.0f-OFFSET_ANGLE;
-		myfoc.theta_e=read_kongxin_spi()-OFFSET_ANGLE;
+		myfoc.theta_e=read_encoder_value()-OFFSET_ANGLE;
 		if (myfoc.theta_e < 0) {
 			myfoc.theta_e += 360.0f;
 		} else if (myfoc.theta_e >= 360.0f) {
 			myfoc.theta_e -= 360.0f;
 		}
-		myfoc.theta_e=myfoc.theta_e*0.017453f*1;	//第一个数字，转化为弧度制；第二个乘的数字为极对数
-		//myfoc.theta_e=temp_angle*0.017453f*1;
+		myfoc.theta_e=myfoc.theta_e*0.017453f*NP;	//第一个数字，转化为弧度制；第二个乘的数字为极对数
 		
 		/*运行电流环*/
 		FOC_CURRENT_LOOP(&myfoc);
@@ -156,8 +154,7 @@ void TIMER1_IRQHandler(void){
 		timer_interrupt_flag_clear(TIMER1,TIMER_INT_FLAG_UP);	//清除中断标志位
 		
 		/*读编码器并计算速度值RPM*/
-		//float angle=read_encoder_ssi();
-		float angle=read_kongxin_spi();		//读取空心杯电机的角度值
+		float angle=read_encoder_value();
 		float delta_angle=angle-myfoc.theta_m;
 		if (delta_angle > 180.0f) {
 				delta_angle -= 360.0f;
@@ -175,12 +172,14 @@ void TIMER1_IRQHandler(void){
 			time_count=0;
 			FOC_POSITION_LOOP(&myfoc);
 		}
-		
-	//printf("end int\n");
+
 }
-		
 
 
+/*!
+ 串口中断函数！！!
+ 接收上位机发送的指令！！！
+ */
 void USART1_IRQHandler(void){
 
 	if(RESET!=usart_interrupt_flag_get(USART1,USART_INT_FLAG_IDLE)){
