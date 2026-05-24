@@ -251,7 +251,8 @@ float read_soft_spi_kth7112(void)
 void foc_spi_init(void){
 
 	// KTH7112_spi_init();	//KTH7112编码器
-	soft_spi_init();	//软件模拟spi初始化
+	//soft_spi_init();	//软件模拟spi初始化
+    MT6701_spi_init();    //MT6701编码器-SSI通信
 }
  
 float read_encoder_value(void)

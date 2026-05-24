@@ -138,7 +138,7 @@ void ADC0_1_IRQHandler(void){
 		myfoc.theta_e=myfoc.theta_e*0.017453f*NP;	//第一个数字，转化为弧度制；第二个乘的数字为极对数
 		
 		/*运行电流环*/
-		FOC_CURRENT_LOOP(&myfoc);
+		//FOC_CURRENT_LOOP(&myfoc);
 		/*运行开环程序*/
 		//FOC_OPEN_LOOP(&myfoc);
 	

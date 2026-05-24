@@ -33,4 +33,4 @@
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_wwdgt.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sqpi.h \
   ..\Firmware\GD32E50x_standard_peripheral\Include\gd32e50x_sdio.h \
-  D:\keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h
+  D:\keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h USER\motor_config.h

@@ -1,6 +1,6 @@
-//
-// Created by 15471 on 2026/5/21.
-//
+/*!
+ Created by tofly Choo on 2026/5/21.
+*/
 
 #ifndef CLION_KEIL_GD32_MOTOR_CONFIG_H
 #define CLION_KEIL_GD32_MOTOR_CONFIG_H
@@ -40,15 +40,15 @@
     #define NP            1       //电机极对数
 
     // 电流环 PID
-    #define MOTOR_PID_ID_KP           0.1f
-    #define MOTOR_PID_ID_KI           0.01f
-    #define MOTOR_PID_IQ_KP           0.1f
-    #define MOTOR_PID_IQ_KI           0.0005f
+    #define MOTOR_PID_ID_KP           0
+    #define MOTOR_PID_ID_KI           0
+    #define MOTOR_PID_IQ_KP           0
+    #define MOTOR_PID_IQ_KI           0
 
     // 速度环/位置环 PID
-    #define MOTOR_PID_SPEED_KP        0.001f
-    #define MOTOR_PID_SPEED_KI        0.0001f
-    #define MOTOR_PID_POS_KP          1.0f
+    #define MOTOR_PID_SPEED_KP        0
+    #define MOTOR_PID_SPEED_KI        0
+    #define MOTOR_PID_POS_KP          0
 
 #elif (CURRENT_MOTOR_SELECT == MOTOR_TYPE_C)
     // 预留给未来测试的 C 电机...

@@ -20,7 +20,7 @@ foc_spi_init();
 //myfoc.theta_m=read_encoder_ssi();
 // pwm_init();
 usart1_rx_dma_init();		//开启DMA
-usart1_init();
+usart1_init();              //开启串口1
 //
 // timer1_it_init();
 //
@@ -45,9 +45,8 @@ usart1_init();
 
 while(1)
 	{
-		
-	//myfoc.theta_m=read_kongxin_spi();
-  float thm=read_soft_spi_kth7112();
+
+  float thm=read_encoder_value();
 		/*串口待发送数据*/
 		float tx_data[]={
 				thm,
