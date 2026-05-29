@@ -130,15 +130,21 @@ void ADC0_1_IRQHandler(void){
 		
 		/*读编码器，电角度更新*/
 		myfoc.theta_e=read_encoder_value()-OFFSET_ANGLE;
-		if (myfoc.theta_e < 0) {
+		while (myfoc.theta_e < 0) {
 			myfoc.theta_e += 360.0f;
-		} else if (myfoc.theta_e >= 360.0f) {
+		}
+	   while (myfoc.theta_e >= 360.0f) {
 			myfoc.theta_e -= 360.0f;
 		}
-		myfoc.theta_e=myfoc.theta_e*0.017453f*NP;	//第一个数字，转化为弧度制；第二个乘的数字为极对数
-		
+		myfoc.theta_e=myfoc.theta_e*0.017453f*NP*ROTOR_DIRECT;	//第一个数字，转化为弧度制;第二个乘的数字为极对数;第三个数字是方向
+	   while ( myfoc.theta_e > 6.283185f){
+		   myfoc.theta_e -= 6.283185f;
+	   }
+		while (myfoc.theta_e < 0){
+			myfoc.theta_e += 6.283185f;
+		}
 		/*运行电流环*/
-		//FOC_CURRENT_LOOP(&myfoc);
+		FOC_CURRENT_LOOP(&myfoc);
 		/*运行开环程序*/
 		//FOC_OPEN_LOOP(&myfoc);
 	

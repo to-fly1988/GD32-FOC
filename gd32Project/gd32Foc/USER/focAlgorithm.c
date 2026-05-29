@@ -5,8 +5,8 @@
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
-	//foc->targetAngle=0;
-	foc->targetSpeed=1000;
+	foc->targetAngle=0;
+	//foc->targetSpeed=1000;
 	
 	foc->target_id=0;
 	foc->target_iq=0;

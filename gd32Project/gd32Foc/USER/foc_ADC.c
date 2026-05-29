@@ -7,9 +7,9 @@ void foc_adc_init(void){
 	/*GPIO配置*/
 	rcu_periph_clock_enable(RCU_GPIOA);
 	//gpio_init(GPIOA,GPIO_MODE_AIN,GPIO_OSPEED_50MHZ,GPIO_PIN_0|GPIO_PIN_1);  //配置PA0,PA1作为ADC模拟输入口,对应ADCIN0,ADCIN1
-	gpio_init(GPIOA,GPIO_MODE_AIN,GPIO_OSPEED_50MHZ,GPIO_PIN_1);
+	gpio_init(GPIOA,GPIO_MODE_AIN,GPIO_OSPEED_50MHZ,GPIO_PIN_1); //ib
 	rcu_periph_clock_enable(RCU_GPIOB);
-	gpio_init(GPIOA,GPIO_MODE_AIN,GPIO_OSPEED_50MHZ,GPIO_PIN_0); 
+	gpio_init(GPIOB,GPIO_MODE_AIN,GPIO_OSPEED_50MHZ,GPIO_PIN_0); //ia
 	/*ADC配套定时器配置TIMER0*/
 	/*定时器配置在pwm_out.c中*/
 	
@@ -44,14 +44,16 @@ void foc_current_offset(volatile FocStatus *foc){
 	
 	uint32_t sum_a=0;
   uint32_t sum_b=0;
-	for(int i=0;i<1000;i++){
+	for(int i=0;i<2000;i++){
 	
 		sum_a=sum_a+adc_inserted_data_read(ADC0,ADC_INSERTED_CHANNEL_0);
 		sum_b=sum_b+adc_inserted_data_read(ADC0,ADC_INSERTED_CHANNEL_1);
 		
 	}
 	
-	foc->ia_offset=(float)sum_a/1000;
-	foc->ib_offset=(float)sum_b/1000;	
+	foc->ia_offset=(float)sum_a/2000;
+	foc->ib_offset=(float)sum_b/2000;	
+//	foc->ia_offset=-1.65f;
+//	foc->ib_offset=-1.65f;
 
 }

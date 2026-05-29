@@ -17,28 +17,28 @@ myfoc.focEnable=0;
 /*所有外设硬件初始化*/
 systick_config();
 foc_spi_init();
-//myfoc.theta_m=read_encoder_ssi();
-// pwm_init();
+myfoc.theta_m=read_encoder_value();
+pwm_init();
 usart1_rx_dma_init();		//开启DMA
 usart1_init();              //开启串口1
 //
-// timer1_it_init();
+timer1_it_init();
 //
-// foc_adc_init();
+foc_adc_init();
 
 
 // printf("start ok");
 /*foc初始参数*/
-// myfoc.ud=0;
-// myfoc.uq=0;
-// FOC_Init(&myfoc);		//参数初始化
-//foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
-
+ myfoc.ud=0;
+ myfoc.uq=0;
+ FOC_Init(&myfoc);		//参数初始化
+foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
+ //myfoc.theta_e=0;
 //myfoc.u_alpha=3;
 //myfoc.u_beta=0;
-//myfoc.theta_e=0;
+ //myfoc.theta_e=0;
 //myfoc.targetSpeed=2000;//设定参考转速
-//myfoc.focEnable=1;
+myfoc.focEnable=1;
 
 
 
@@ -46,21 +46,21 @@ usart1_init();              //开启串口1
 while(1)
 	{
 
-  float thm=read_encoder_value();
+ // float thm=read_encoder_value();
 		/*串口待发送数据*/
 		float tx_data[]={
-				thm,
-			// myfoc.speed,
-			//myfoc.theta_m,
-//			myfoc.targetAngle,
-//			myfoc.targetSpeed,
-//			myfoc.ia,
-//			myfoc.ib,
-//			myfoc.ic,
-			// myfoc.id,
-			// myfoc.iq,
-			// myfoc.target_id,
-			// myfoc.target_iq,
+			//	thm,
+			//myfoc.speed,
+			myfoc.theta_m,
+			myfoc.targetAngle,
+			///myfoc.targetSpeed,
+			myfoc.ia,
+			myfoc.ib,
+			myfoc.ic,
+			myfoc.id,
+		  myfoc.iq,
+			myfoc.target_id,
+			myfoc.target_iq,
 //			myfoc.i_alpha,
 //			myfoc.i_beta
 			// myfoc.pid_speed.integral,
