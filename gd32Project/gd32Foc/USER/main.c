@@ -7,6 +7,8 @@
 #include "main.h"
 #include "foc_ADC.h"
 #include "encoder_spi.h"
+#include "gd32e50x_gpio.h"
+
 volatile FocStatus myfoc;
 //volatile float temp_angle=0;
 
@@ -40,40 +42,45 @@ foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准
 //myfoc.targetSpeed=2000;//设定参考转速
 myfoc.focEnable=1;
 
-
-
+rcu_periph_clock_enable(RCU_GPIOA);
+gpio_init(GPIOA,GPIO_MODE_OUT_PP,GPIO_OSPEED_50MHZ,GPIO_PIN_11);
 
 while(1)
 	{
-
+	
  // float thm=read_encoder_value();
 		/*串口待发送数据*/
 		float tx_data[]={
 			//	thm,
-			//myfoc.speed,
+			myfoc.speed,
 			myfoc.theta_m,
-			myfoc.targetAngle,
-			///myfoc.targetSpeed,
+			myfoc.theta_e,
+//			myfoc.targetAngle,
+			//myfoc.targetSpeed,
+//			myfoc.secn,
 			myfoc.ia,
 			myfoc.ib,
-			myfoc.ic,
-			myfoc.id,
-		  myfoc.iq,
-			myfoc.target_id,
-			myfoc.target_iq,
+//			myfoc.ic,
+//			myfoc.id,
+//		  myfoc.iq,
+//			myfoc.target_id,
+//			myfoc.target_iq,
 //			myfoc.i_alpha,
 //			myfoc.i_beta
 			// myfoc.pid_speed.integral,
-			//myfoc.pid_id.integral,
-			// myfoc.pid_iq.integral
+//			myfoc.pid_id.integral,
+//			myfoc.pid_iq.integral
 		};
+		gpio_bit_set(GPIOA, GPIO_PIN_11);
 		vofa_send_array(tx_data,sizeof(tx_data)/sizeof(float));
 		//vofa_send_data(myfoc.speed,myfoc.targetSpeed,myfoc.ia,myfoc.ib,myfoc.ic,myfoc.id,myfoc.iq,myfoc.pid_speed.integral,myfoc.pid_iq.integral);
 		//vofa_send_data(myfoc.speed,myfoc.theta_m,myfoc.ia,myfoc.ib,myfoc.ic,myfoc.id,myfoc.iq,myfoc.i_alpha,myfoc.i_beta);
 //		printf("%.3f\n",myfoc.theta_m);
 //		printf("speed=%.3f\n",myfoc.speed);
 		//printf("hello\n");
-		delay_1ms(10);	
+		gpio_bit_reset(GPIOA, GPIO_PIN_11);
+		delay_1ms(2);	
+		
 }
 	
 }

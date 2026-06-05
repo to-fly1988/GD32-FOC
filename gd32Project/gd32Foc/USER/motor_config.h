@@ -21,6 +21,7 @@
     #define OFFSET_ANGLE  322.0f        // 编码器电角度偏移量 (度)
     #define NP            1             //电机极对数
 		#define ROTOR_DIRECT  1             //转子旋转方向与编码器值对应关系
+		#define ENCODER_RES   0             //编码器分辨率极限(单位：度)，用于位置环死区
 
     // 电流环 PID
     #define MOTOR_PID_ID_KP           0.1f
@@ -35,18 +36,18 @@
 
 #elif (CURRENT_MOTOR_SELECT == MOTOR_B2245)
     #define FOC_UDC       12.0f
-    #define MAX_CURRENT   3.0f    //实际最大堵转电流是6A
+    #define MAX_CURRENT   1.0f     //实际最大堵转电流是6A
     #define MAX_SPEED     13000.0f
     #define OFFSET_ANGLE  60.16f
-		//#define OFFSET_ANGLE  181.0f
     #define NP            1       //电机极对数
-		#define ROTOR_DIRECT  1      //转子旋转方向与编码器值对应关系
+		#define ROTOR_DIRECT  1       //转子旋转方向与编码器值对应关系
+		#define ENCODER_RES   0.033f  //编码器分辨率极限(单位：度)，用于位置环死区
 
     // 电流环 PID
-    #define MOTOR_PID_ID_KP           0.8f
-    #define MOTOR_PID_ID_KI           0.01f
-    #define MOTOR_PID_IQ_KP           0.8f
-    #define MOTOR_PID_IQ_KI           0.01f
+    #define MOTOR_PID_ID_KP           0.546f
+    #define MOTOR_PID_ID_KI           0.6f
+    #define MOTOR_PID_IQ_KP           0.546f
+    #define MOTOR_PID_IQ_KI           0.6f
 
     // 速度环/位置环 PID
     #define MOTOR_PID_SPEED_KP        0.001f

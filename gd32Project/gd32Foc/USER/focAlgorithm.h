@@ -63,6 +63,7 @@ typedef struct{
 	float uq;
 	float u_alpha;
 	float u_beta;
+	uint8_t secn;
 	
 	//----输出pwm值
 	uint16_t pwm_a; //CCR值，用于比较输出

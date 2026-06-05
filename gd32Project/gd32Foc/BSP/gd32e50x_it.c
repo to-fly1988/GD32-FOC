@@ -108,6 +108,7 @@ void SysTick_Handler(void)
 
 /*!
  电流环中断函数
+ 运行时长：
  */
 extern volatile FocStatus myfoc;
 extern volatile float temp_angle;
@@ -176,7 +177,7 @@ void TIMER1_IRQHandler(void){
 		/*运行位置环*/
 		if(time_count==10){
 			time_count=0;
-			FOC_POSITION_LOOP(&myfoc);
+			//FOC_POSITION_LOOP(&myfoc);
 		}
 
 }

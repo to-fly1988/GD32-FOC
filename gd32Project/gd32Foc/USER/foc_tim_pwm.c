@@ -19,8 +19,8 @@ void pwm_init(void){
 	//-----定时器配置-----
 	rcu_periph_clock_enable(RCU_TIMER0);
 	timer_deinit(TIMER0);
-	
-	
+		
+
 	timer0_init.prescaler=18-1; //预分频系数,系统时钟180MHZ
 	timer0_init.alignedmode=TIMER_COUNTER_CENTER_BOTH;  //计数模式
 	//timer0_init.alignedmode=TIMER_COUNTER_EDGE;

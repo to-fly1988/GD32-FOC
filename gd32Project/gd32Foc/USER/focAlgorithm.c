@@ -1,12 +1,13 @@
 #include "focAlgorithm.h"
 #include "foc_tim_pwm.h"
 #include "motor_config.h"
+#include "math.h"
 
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
-	foc->targetAngle=0;
-	//foc->targetSpeed=1000;
+	//foc->targetAngle=0;
+	foc->targetSpeed=100;
 	
 	foc->target_id=0;
 	foc->target_iq=0;
@@ -108,6 +109,8 @@ static void svpwm_Generate(volatile FocStatus *foc){
 	
 	if(Vref3>0){
 	sector+=4;}
+	
+	foc->secn=sector;
 	
 	float X=SQRT3*foc->u_beta*FOC_PWM_ARR/FOC_UDC;
 	float Y=(1.5f*foc->u_alpha+SQRT3*foc->u_beta*0.5f)*FOC_PWM_ARR/FOC_UDC;
@@ -264,6 +267,9 @@ void FOC_POSITION_LOOP(volatile FocStatus *foc){
 		position_error=position_error-360;}
 	else if(position_error<-180){
 		position_error=position_error+360;}
+	if(fabsf(position_error)<ENCODER_RES){
+	  position_error=0;
+	  foc->pid_speed.integral=0;}
 	foc->targetSpeed=pid_Process(&foc->pid_position,position_error);
 }
 
