@@ -161,6 +161,10 @@ void cmd_rx_decode(uint8_t cmd,float value,volatile FocStatus *foc){
 			foc->pid_iq.ki=value;
 			break;
 		
+		case 0xD1:
+			foc->pid_position.kp=value;
+			break;
+		
 		default:
 			break;
 	}

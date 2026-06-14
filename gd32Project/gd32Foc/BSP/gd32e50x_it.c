@@ -108,13 +108,13 @@ void SysTick_Handler(void)
 
 /*!
  电流环中断函数
- 运行时长：
+ 运行时长：17us
  */
 extern volatile FocStatus myfoc;
 extern volatile float temp_angle;
 
 void ADC0_1_IRQHandler(void){
-
+		
 		adc_interrupt_flag_clear(ADC0,ADC_INT_FLAG_EOIC);		//清除中断标志位
 	
 		/*ADC采样电流*/
@@ -146,22 +146,27 @@ void ADC0_1_IRQHandler(void){
 		}
 		/*运行电流环*/
 		FOC_CURRENT_LOOP(&myfoc);
+		
 		/*运行开环程序*/
 		//FOC_OPEN_LOOP(&myfoc);
 	
 }
 
 
+extern volatile uint8_t SEND_FLAG;
 /*!
  速度环和位置环中断
+ 速度环执行时长：10us
  */
 void TIMER1_IRQHandler(void){
 	  static uint8_t time_count=0;	//计数次数，每10次触发一次位置环计算
 		time_count++;
 		timer_interrupt_flag_clear(TIMER1,TIMER_INT_FLAG_UP);	//清除中断标志位
+		 
 		
 		/*读编码器并计算速度值RPM*/
 		float angle=read_encoder_value();
+	  
 		float delta_angle=angle-myfoc.theta_m;
 		if (delta_angle > 180.0f) {
 				delta_angle -= 360.0f;
@@ -173,11 +178,10 @@ void TIMER1_IRQHandler(void){
 		
 		/*运行速度环*/
 		FOC_SPEED_LOOP(&myfoc);
-		
 		/*运行位置环*/
 		if(time_count==10){
 			time_count=0;
-			//FOC_POSITION_LOOP(&myfoc);
+			FOC_POSITION_LOOP(&myfoc);
 		}
 
 }

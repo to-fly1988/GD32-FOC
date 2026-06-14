@@ -27,7 +27,88 @@ Project File Date:  05/24/2026
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'D:\keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
+USER/main.c(14): warning: no previous extern declaration for non-static variable 'SEND_FLAG' [-Wmissing-variable-declarations]
+volatile uint8_t SEND_FLAG=0;
+                 ^
+USER/main.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile uint8_t SEND_FLAG=0;
+         ^
+USER/main.c(4): warning: In file included from...
+./USER/focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER/focAlgorithm.h(70): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
+        uint16_t pwm_a; //CCR值，用于比较输出
+                 ^
+USER/main.c(113): warning: unused parameter 'f' [-Wunused-parameter]
+int fputc(int ch, FILE *f)
+                        ^
+USER/main.c(12): warning: no previous extern declaration for non-static variable 'myfoc' [-Wmissing-variable-declarations]
+volatile FocStatus myfoc;
+                   ^
+USER/main.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile FocStatus myfoc;
+         ^
+5 warnings generated.
+compiling main.c...
 compiling systick.c...
+USER/foc_usart.c(7): warning: In file included from...
+./USER/foc_usart.h(10): warning: In file included from...
+../Firmware/CMSIS/GD/GD32E50x/Include\gd32e50x.h(460): warning: In file included from...
+./BSP\gd32e50x_libopt.h(47): warning: In file included from...
+../Firmware/GD32E50x_standard_peripheral/Include\gd32e50x_dma.h(133): warning: padding size of 'dma_parameter_struct' with 1 byte to alignment boundary [-Wpadded]
+typedef struct
+        ^
+USER/foc_usart.c(7): warning: In file included from...
+./USER/foc_usart.h(12): warning: In file included from...
+./USER/focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER/focAlgorithm.h(70): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
+        uint16_t pwm_a; //CCR值，用于比较输出
+                 ^
+3 warnings generated.
+compiling foc_usart.c...
+BSP/gd32e50x_it.c(54): warning: function 'NMI_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(66): warning: function 'HardFault_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(79): warning: function 'SVC_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(91): warning: function 'PendSV_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(39): warning: In file included from...
+./USER\foc_ADC.h(12): warning: In file included from...
+./USER\focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER\focAlgorithm.h(70): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
+        uint16_t pwm_a; //CCR值，用于比较输出
+                 ^
+6 warnings generated.
+compiling gd32e50x_it.c...
+USER/focAlgorithm.c(1): warning: In file included from...
+./USER/focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER/focAlgorithm.h(70): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
+        uint16_t pwm_a; //CCR值，用于比较输出
+                 ^
+USER/focAlgorithm.c(39): warning: unused function 'clark_Park' [-Wunused-function]
+static void clark_Park(volatile FocStatus *foc){
+            ^
+USER/focAlgorithm.c(208): warning: unused function 'SMC_Sat' [-Wunused-function]
+static float SMC_Sat(float s, float delta){
+             ^
+USER/focAlgorithm.c(221): warning: unused function 'Friction_COMP' [-Wunused-function]
+static float Friction_COMP(volatile FocStatus *foc){
+             ^
+5 warnings generated.
+compiling focAlgorithm.c...
 USER/foc_tim_pwm.c(1): warning: In file included from...
 ./USER/foc_tim_pwm.h(10): warning: In file included from...
 ../Firmware/CMSIS/GD/GD32E50x/Include\gd32e50x.h(460): warning: In file included from...
@@ -40,49 +121,6 @@ typedef struct
         ^
 2 warnings generated.
 compiling foc_tim_pwm.c...
-USER/foc_ADC.c(1): warning: In file included from...
-./USER/foc_ADC.h(12): warning: In file included from...
-./USER/focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER/focAlgorithm.h(69): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
-        uint16_t pwm_a; //CCR值，用于比较输出
-                 ^
-2 warnings generated.
-compiling foc_ADC.c...
-USER/focAlgorithm.c(1): warning: In file included from...
-./USER/focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER/focAlgorithm.h(69): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
-        uint16_t pwm_a; //CCR值，用于比较输出
-                 ^
-USER/focAlgorithm.c(39): warning: unused function 'clark_Park' [-Wunused-function]
-static void clark_Park(volatile FocStatus *foc){
-            ^
-USER/focAlgorithm.c(208): warning: unused function 'SMC_Sat' [-Wunused-function]
-static float SMC_Sat(float s, float delta){
-             ^
-4 warnings generated.
-compiling focAlgorithm.c...
-USER/main.c(4): warning: In file included from...
-./USER/focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER/focAlgorithm.h(69): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
-        uint16_t pwm_a; //CCR值，用于比较输出
-                 ^
-USER/main.c(99): warning: unused parameter 'f' [-Wunused-parameter]
-int fputc(int ch, FILE *f)
-                        ^
-USER/main.c(12): warning: no previous extern declaration for non-static variable 'myfoc' [-Wmissing-variable-declarations]
-volatile FocStatus myfoc;
-                   ^
-USER/main.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile FocStatus myfoc;
-         ^
-4 warnings generated.
-compiling main.c...
 USER/encoder_spi.c(112): warning: implicit conversion loses integer precision: 'uint16_t' (aka 'unsigned short') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
         return spi_i2s_data_receive(SPI0);
         ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,45 +144,16 @@ static void soft_spi_init(void)
             ^
 7 warnings generated.
 compiling encoder_spi.c...
-BSP/gd32e50x_it.c(54): warning: function 'NMI_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(66): warning: function 'HardFault_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(79): warning: function 'SVC_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(91): warning: function 'PendSV_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(39): warning: In file included from...
-./USER\foc_ADC.h(12): warning: In file included from...
-./USER\focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER\focAlgorithm.h(69): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
-        uint16_t pwm_a; //CCR值，用于比较输出
-                 ^
-6 warnings generated.
-compiling gd32e50x_it.c...
-USER/foc_usart.c(7): warning: In file included from...
-./USER/foc_usart.h(10): warning: In file included from...
-../Firmware/CMSIS/GD/GD32E50x/Include\gd32e50x.h(460): warning: In file included from...
-./BSP\gd32e50x_libopt.h(47): warning: In file included from...
-../Firmware/GD32E50x_standard_peripheral/Include\gd32e50x_dma.h(133): warning: padding size of 'dma_parameter_struct' with 1 byte to alignment boundary [-Wpadded]
-typedef struct
-        ^
-USER/foc_usart.c(7): warning: In file included from...
-./USER/foc_usart.h(12): warning: In file included from...
+USER/foc_ADC.c(1): warning: In file included from...
+./USER/foc_ADC.h(12): warning: In file included from...
 ./USER/focAlgorithm.h(41): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
         float targetAngle; //目标角度位置
               ^
-./USER/focAlgorithm.h(69): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
+./USER/focAlgorithm.h(70): warning: padding struct 'FocStatus' with 1 byte to align 'pwm_a' [-Wpadded]
         uint16_t pwm_a; //CCR值，用于比较输出
                  ^
-3 warnings generated.
-compiling foc_usart.c...
+2 warnings generated.
+compiling foc_ADC.c...
 assembling startup_gd32e50x_hd.s...
 compiling system_gd32e50x.c...
 compiling gd32e50x_gpio.c...
@@ -204,8 +213,8 @@ compiling gd32e50x_dma.c...
 2 warnings generated.
 compiling gd32e50x_usart.c...
 linking...
-Program Size: Code=9700 RO-data=480 RW-data=8 ZI-data=1224  
-".\Objects\gd32Foc.axf" - 0 Error(s), 40 Warning(s).
+Program Size: Code=9800 RO-data=480 RW-data=8 ZI-data=1232  
+".\Objects\gd32Foc.axf" - 0 Error(s), 42 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -228,7 +237,7 @@ Package Vendor: GigaDevice
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

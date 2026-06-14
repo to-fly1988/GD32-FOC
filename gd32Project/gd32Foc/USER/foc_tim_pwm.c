@@ -99,7 +99,7 @@ void timer1_it_init(void){
 	timer_interrupt_enable(TIMER1,TIMER_INT_UP);
 	
 	/*NVIC配置*/
-	nvic_irq_enable(TIMER1_IRQn,0,1);
+	nvic_irq_enable(TIMER1_IRQn,1,0);
 	timer_enable(TIMER1);
 
 }

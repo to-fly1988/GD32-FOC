@@ -36,7 +36,7 @@
 
 #elif (CURRENT_MOTOR_SELECT == MOTOR_B2245)
     #define FOC_UDC       12.0f
-    #define MAX_CURRENT   1.0f     //实际最大堵转电流是6A
+    #define MAX_CURRENT   3.0f     //实际最大堵转电流是6A
     #define MAX_SPEED     13000.0f
     #define OFFSET_ANGLE  60.16f
     #define NP            1       //电机极对数
@@ -44,15 +44,15 @@
 		#define ENCODER_RES   0.033f  //编码器分辨率极限(单位：度)，用于位置环死区
 
     // 电流环 PID
-    #define MOTOR_PID_ID_KP           0.546f
-    #define MOTOR_PID_ID_KI           0.6f
-    #define MOTOR_PID_IQ_KP           0.546f
-    #define MOTOR_PID_IQ_KI           0.6f
+    #define MOTOR_PID_ID_KP           0.5f*0.546f
+    #define MOTOR_PID_ID_KI           0.5f*0.6f
+    #define MOTOR_PID_IQ_KP           0.5f*0.546f
+    #define MOTOR_PID_IQ_KI           0.29f
 
     // 速度环/位置环 PID
     #define MOTOR_PID_SPEED_KP        0.001f
     #define MOTOR_PID_SPEED_KI        0.0001f
-    #define MOTOR_PID_POS_KP          1.2f
+    #define MOTOR_PID_POS_KP          10.0f
 
 #elif (CURRENT_MOTOR_SELECT == MOTOR_TYPE_C)
     // 预留给未来测试的 C 电机...

@@ -6,8 +6,8 @@
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
-	//foc->targetAngle=0;
-	foc->targetSpeed=100;
+	foc->targetAngle=10;
+  foc->targetSpeed=100;
 	
 	foc->target_id=0;
 	foc->target_iq=0;
@@ -31,7 +31,7 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->pid_position.kp=MOTOR_PID_POS_KP;
 	foc->pid_position.ki=0;
 	foc->pid_position.integral=0;
-	foc->pid_position.out_limit=MAX_SPEED/100;
+	foc->pid_position.out_limit=MAX_SPEED/1.3f;
 	
 }
 
@@ -213,8 +213,65 @@ static float SMC_Sat(float s, float delta){
 	else
 	{return s/delta;}
 }
+
 /*************/
 
+	
+/***摩擦力补偿***/
+static float Friction_COMP(volatile FocStatus *foc){
+	  float pos_err=foc->targetAngle-foc->theta_m;
+    if(fabsf(pos_err)<2.0f && fabsf(foc->speed)<1.0f && fabsf(pos_err)>0.05f){
+		if(pos_err>0){
+		return 0.01f;}
+		else if(pos_err<0){
+		return -0.01f;}
+		}
+			return 0;
+}
+/***************/
+
+/*轨迹规划器*/
+static void Trajectory_Udate(volatile TRAJ_T *traj, float target_pos, float Ts ){
+	
+	float dist=target_pos-traj->pos_plan;
+	float stop_dist=(traj->vel_plan*traj->vel_plan)/(2.0f*traj->amax);	//计算当前速度刹车距离
+	
+	
+	if(fabsf(dist)>stop_dist){
+	  /*还在加速区*/
+		if(dist>0){
+		    traj->vel_plan=traj->vel_plan+traj->amax*Ts;}
+		else{
+		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;}
+	}
+	
+	else{
+		/*进入减速区*/
+		if(traj->vel_plan>0){
+		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;
+		    if(traj->vel_plan<0){
+		        traj->vel_plan=0;}
+		}
+		
+		else{
+			  traj->vel_plan=traj->vel_plan+traj->amax*Ts;
+			  if(traj->vel_plan>0){
+		        traj->vel_plan=0;}
+		}
+	}
+	
+	/*限制最大规划速度*/
+	if(traj->vel_plan > traj->vmax){
+        traj->vel_plan = traj->vmax;}
+  if(traj->vel_plan < -traj->vmax){
+        traj->vel_plan = -traj->vmax;}
+	
+	/*计算规划位置*/
+	traj->pos_plan=traj->pos_plan+traj->vel_plan*Ts;
+	
+}
+
+/**/
 
 //============FOC速度电流环运行程序================
 //代码在中断中调用
@@ -234,6 +291,8 @@ void FOC_CURRENT_LOOP(volatile FocStatus *foc){
 	//电流环PID计算
 	float id_error=foc->target_id-foc->id;
 	float iq_error=foc->target_iq-foc->iq;
+	
+	foc->iqerror=iq_error;
 	
 	foc->ud=pid_Process(&foc->pid_id,id_error);
 	foc->uq=pid_Process(&foc->pid_iq,iq_error);
@@ -261,16 +320,20 @@ void FOC_SPEED_LOOP(volatile FocStatus *foc){
 
 /*======位置环部分=======*/
 void FOC_POSITION_LOOP(volatile FocStatus *foc){
-
-	float position_error=foc->targetAngle-foc->theta_m;
+	
+	Trajectory_Udate(&foc->traj,foc->targetAngle, 0.01f);
+	
+	
+	//float position_error=foc->targetAngle-foc->theta_m;
+	float position_error=foc->traj.pos_plan-foc->theta_m;
 	if(position_error>180){
 		position_error=position_error-360;}
-	else if(position_error<-180){
+	else if(position_error<=-180){
 		position_error=position_error+360;}
-	if(fabsf(position_error)<ENCODER_RES){
-	  position_error=0;
-	  foc->pid_speed.integral=0;}
-	foc->targetSpeed=pid_Process(&foc->pid_position,position_error);
+//	if(fabsf(position_error)<ENCODER_RES){
+//	  position_error=0;
+//	  foc->pid_speed.integral=0;}
+	foc->targetSpeed=pid_Process(&foc->pid_position,position_error)+foc->traj.vel_plan;
 }
 
 /*=======开环=======*/

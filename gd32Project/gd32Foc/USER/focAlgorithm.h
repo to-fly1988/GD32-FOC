@@ -34,6 +34,14 @@ typedef struct
 	float delta;
 }Smcstatus;
 
+/*T型轨迹规划*/
+typedef struct{
+  float pos_plan;
+	float vel_plan;
+	float vmax;
+	float amax;
+}TRAJ_T;
+
 //========================foc中所有状态值的结构体变量===========
 typedef struct{
 	uint8_t focEnable; //电机运行状态
@@ -61,6 +69,7 @@ typedef struct{
 	float i_beta;
 	float ud;		//	反帕克变换输入
 	float uq;
+	float iqerror;
 	float u_alpha;
 	float u_beta;
 	uint8_t secn;
@@ -75,6 +84,9 @@ typedef struct{
 	PidStatus pid_speed;
 	PidStatus pid_id;
 	PidStatus pid_iq;
+	
+	//----轨迹规划状态
+	TRAJ_T traj;
 
 }FocStatus;
 
