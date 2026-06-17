@@ -30,7 +30,7 @@ void foc_adc_init(void){
 	adc_interrupt_flag_clear(ADC0,ADC_INT_FLAG_EOIC);		//清除EOIC标志位，该标志位用于触发中断
 	adc_interrupt_enable(ADC0,ADC_INT_EOIC);						//使能EOIC的中断
 	adc_enable(ADC0);		//使能ADC0开启
-	delay_1ms(1);				//设置1ms延迟，使ADC处于稳定状态
+	delay_1ms(2);				//设置2ms延迟，使ADC处于稳定状态
 	adc_calibration_enable(ADC0);  //使能校准复位
 	
 	/*NVIC配置*/

@@ -35,10 +35,12 @@ foc_adc_init();
 
 // printf("start ok");
 /*foc初始参数*/
+
+ FOC_Init(&myfoc);		//参数初始化
+ foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
+ 
  myfoc.ud=0;
  myfoc.uq=0;
- FOC_Init(&myfoc);		//参数初始化
-foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
  //myfoc.theta_e=0;
 //myfoc.u_alpha=3;
 //myfoc.u_beta=0;
@@ -68,7 +70,8 @@ while(1)
 //			myfoc.ud,
 //			myfoc.uq,
 //			myfoc.iqerror,
-		  myfoc.iq,
+			myfoc.pos_error,
+//		  myfoc.iq,
 //			myfoc.target_id,
 //			myfoc.target_iq,
 //			myfoc.i_alpha,
@@ -77,6 +80,8 @@ while(1)
 //			myfoc.pid_id.integral,
 //			myfoc.pid_iq.integral
 //    myfoc.pid_position.integral
+//     myfoc.traj.pos_plan,
+//		 myfoc.traj.vel_plan
 		};
 		
 		//if(SEND_FLAG==1){
@@ -92,7 +97,7 @@ while(1)
 //		printf("speed=%.3f\n",myfoc.speed);
 		//printf("hello\n");
 		
-		delay_1ms(2);	
+		//delay_1ms(2);	
 		/*delay2ms,send 5 data,T=3ms*/
 		
 }

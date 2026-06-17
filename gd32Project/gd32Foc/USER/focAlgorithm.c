@@ -2,11 +2,11 @@
 #include "foc_tim_pwm.h"
 #include "motor_config.h"
 #include "math.h"
-
+#include "encoder_spi.h"
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
-	foc->targetAngle=10;
+	foc->targetAngle=100;
   foc->targetSpeed=100;
 	
 	foc->target_id=0;
@@ -32,6 +32,13 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->pid_position.ki=0;
 	foc->pid_position.integral=0;
 	foc->pid_position.out_limit=MAX_SPEED/1.3f;
+	
+	/*轨迹规划初始参数*/
+	foc->traj.pos_plan=0;
+	foc->traj.vel_plan=0;
+	foc->traj.vmax=5000;
+	foc->traj.amax=300000;
+	foc->traj.acc_plan=0;
 	
 }
 
@@ -230,44 +237,81 @@ static float Friction_COMP(volatile FocStatus *foc){
 }
 /***************/
 
-/*轨迹规划器*/
+/*！
+    \brief 轨迹规划器
+*/
 static void Trajectory_Udate(volatile TRAJ_T *traj, float target_pos, float Ts ){
 	
 	float dist=target_pos-traj->pos_plan;
-	float stop_dist=(traj->vel_plan*traj->vel_plan)/(2.0f*traj->amax);	//计算当前速度刹车距离
+	float max_dv=traj->amax*Ts;
+//	float stop_dist=(3*traj->vel_plan*traj->vel_plan)/(traj->amax);	//计算当前速度刹车距离，结果单位是deg
 	
+	/***终点死区设置***/
+	if (fabsf(dist) < 0.5f && fabsf(traj->vel_plan) <= max_dv) {
+        traj->pos_plan = target_pos;
+        traj->vel_plan = 0.0f;
+        return; 
+    }
 	
-	if(fabsf(dist)>stop_dist){
-	  /*还在加速区*/
-		if(dist>0){
-		    traj->vel_plan=traj->vel_plan+traj->amax*Ts;}
-		else{
-		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;}
-	}
-	
-	else{
-		/*进入减速区*/
-		if(traj->vel_plan>0){
-		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;
-		    if(traj->vel_plan<0){
-		        traj->vel_plan=0;}
-		}
+	/***计算安全速度***/
+	float max_safe_vel = sqrtf(fabsf(dist) * traj->amax / 3.0f);
 		
-		else{
-			  traj->vel_plan=traj->vel_plan+traj->amax*Ts;
-			  if(traj->vel_plan>0){
-		        traj->vel_plan=0;}
-		}
-	}
+	if(max_safe_vel > traj->vmax)
+    {
+        max_safe_vel = traj->vmax;
+    }
+		
+	if(dist < 0.0f)
+    {
+        max_safe_vel = -max_safe_vel;
+    }
+		
+		float v_err = max_safe_vel - traj->vel_plan;
+		
+		if(v_err > max_dv)
+    {
+        traj->vel_plan += max_dv; 
+    }
+    else if(v_err < -max_dv)
+    {
+        traj->vel_plan -= max_dv;
+    }
+    else
+    {
+        traj->vel_plan = max_safe_vel; // 平滑着陆刹车曲线
+    }
 	
-	/*限制最大规划速度*/
-	if(traj->vel_plan > traj->vmax){
-        traj->vel_plan = traj->vmax;}
-  if(traj->vel_plan < -traj->vmax){
-        traj->vel_plan = -traj->vmax;}
+//	if(fabsf(dist)>stop_dist){
+//	  /***还在加速区***/
+//		if(dist>0){
+//		    traj->vel_plan=traj->vel_plan+traj->amax*Ts;}
+//		else{
+//		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;}
+//	}
+//	
+//	else{
+//		/*进入减速区*/
+//		if(traj->vel_plan>0){
+//		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;
+//		    if(traj->vel_plan<0){
+//		        traj->vel_plan=0;}
+//		}
+//		
+//		else{
+//			  traj->vel_plan=traj->vel_plan+traj->amax*Ts;
+//			  if(traj->vel_plan>0){
+//		        traj->vel_plan=0;}
+//		}
+//	}
+//	
+//	/*限制最大规划速度*/
+//	if(traj->vel_plan > traj->vmax){
+//        traj->vel_plan = traj->vmax;}
+//  if(traj->vel_plan < -traj->vmax){
+//        traj->vel_plan = -traj->vmax;}
 	
 	/*计算规划位置*/
-	traj->pos_plan=traj->pos_plan+traj->vel_plan*Ts;
+	traj->pos_plan=traj->pos_plan+traj->vel_plan*Ts*6.0f;    //6.0f是将rpm转换成deg/s
 	
 }
 
@@ -313,23 +357,26 @@ void FOC_CURRENT_LOOP(volatile FocStatus *foc){
 void FOC_SPEED_LOOP(volatile FocStatus *foc){
 
 	//速度环PID计算
-	float speed_error=foc->targetSpeed-foc->speed;
-	foc->target_iq=pid_Process(&foc->pid_speed,speed_error);
+	float speed_error = foc->targetSpeed-foc->speed;
+	foc->target_iq    = pid_Process(&foc->pid_speed,speed_error);
+	
 
 }
 
 /*======位置环部分=======*/
 void FOC_POSITION_LOOP(volatile FocStatus *foc){
 	
-	Trajectory_Udate(&foc->traj,foc->targetAngle, 0.01f);
+	Trajectory_Udate(&foc->traj,foc->targetAngle, 0.001f);
 	
 	
 	//float position_error=foc->targetAngle-foc->theta_m;
-	float position_error=foc->traj.pos_plan-foc->theta_m;
-	if(position_error>180){
-		position_error=position_error-360;}
-	else if(position_error<=-180){
-		position_error=position_error+360;}
+	//float temp_angle     = read_encoder_value();
+	float position_error = foc->traj.pos_plan-foc->theta_m;
+	foc->pos_error=position_error;
+//	if(position_error>180){
+//		position_error=position_error-360;}
+//	else if(position_error<=-180){
+//		position_error=position_error+360;}
 //	if(fabsf(position_error)<ENCODER_RES){
 //	  position_error=0;
 //	  foc->pid_speed.integral=0;}

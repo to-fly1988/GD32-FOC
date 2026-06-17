@@ -21,7 +21,7 @@ void pwm_init(void){
 	timer_deinit(TIMER0);
 		
 
-	timer0_init.prescaler=18-1; //预分频系数,系统时钟180MHZ
+	timer0_init.prescaler=9-1; //预分频系数,系统时钟180MHZ
 	timer0_init.alignedmode=TIMER_COUNTER_CENTER_BOTH;  //计数模式
 	//timer0_init.alignedmode=TIMER_COUNTER_EDGE;
 	
@@ -42,17 +42,17 @@ void pwm_init(void){
 	timer_channel_output_config(TIMER0,TIMER_CH_2,&ch_config);
 	
 	//CH0通道配置输出模式
-	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_0,499);
+	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_0,FOC_PWM_ARR);
 	timer_channel_output_mode_config(TIMER0,TIMER_CH_0,TIMER_OC_MODE_PWM1);
 	timer_channel_output_shadow_config (TIMER0,TIMER_CH_0,TIMER_OC_SHADOW_DISABLE);
 	
 	//CH1
-	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_1,499);
+	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_1,FOC_PWM_ARR);
 	timer_channel_output_mode_config(TIMER0,TIMER_CH_1,TIMER_OC_MODE_PWM1);
 	timer_channel_output_shadow_config (TIMER0,TIMER_CH_1,TIMER_OC_SHADOW_DISABLE);
 	
 	//CH2
-	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_2,499);
+	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_2,FOC_PWM_ARR);
 	timer_channel_output_mode_config(TIMER0,TIMER_CH_2,TIMER_OC_MODE_PWM1);
 	timer_channel_output_shadow_config (TIMER0,TIMER_CH_2,TIMER_OC_SHADOW_DISABLE);
 	
@@ -90,7 +90,7 @@ void timer1_it_init(void){
 	timer1_init.prescaler=180-1;
 	timer1_init.alignedmode=TIMER_COUNTER_EDGE;
 	timer1_init.counterdirection=TIMER_COUNTER_UP;
-	timer1_init.period=1000-1;
+	timer1_init.period=250-1;
 	timer1_init.clockdivision=TIMER_CKDIV_DIV1;
 	timer1_init.repetitioncounter=0;
 	timer_init(TIMER1,&timer1_init);

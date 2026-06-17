@@ -36,10 +36,11 @@ typedef struct
 
 /*T型轨迹规划*/
 typedef struct{
-  float pos_plan;
-	float vel_plan;
-	float vmax;
-	float amax;
+  float pos_plan;    //单位：度（deg）
+	float vel_plan;    //单位：rpm
+	float vmax;        //单位：rpm
+	float amax;        //单位:rpm/s
+	float acc_plan;    //加速度规划
 }TRAJ_T;
 
 //========================foc中所有状态值的结构体变量===========
@@ -73,6 +74,7 @@ typedef struct{
 	float u_alpha;
 	float u_beta;
 	uint8_t secn;
+	float pos_error;
 	
 	//----输出pwm值
 	uint16_t pwm_a; //CCR值，用于比较输出

@@ -173,13 +173,13 @@ void TIMER1_IRQHandler(void){
 		} else if (delta_angle < -180.0f) {
 				delta_angle += 360.0f;
 		}
-		myfoc.speed=delta_angle*166.6667f;	//166.6667=1/0.001/360*60
+		myfoc.speed=delta_angle*166.6667f*4.0f;	//166.6667=1/0.001/360*60
 		myfoc.theta_m=angle;
 		
 		/*运行速度环*/
 		FOC_SPEED_LOOP(&myfoc);
 		/*运行位置环*/
-		if(time_count==10){
+		if(time_count==4){
 			time_count=0;
 			FOC_POSITION_LOOP(&myfoc);
 		}
