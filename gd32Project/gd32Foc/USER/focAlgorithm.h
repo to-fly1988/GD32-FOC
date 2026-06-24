@@ -24,6 +24,7 @@ typedef struct{
 	float ki;		     //积分系数
 	float integral;  //存储积分值
 	float out_limit; //输出限幅
+	float int_limit; //积分限幅
 	
 }PidStatus;
 
@@ -89,6 +90,12 @@ typedef struct{
 	
 	//----轨迹规划状态
 	TRAJ_T traj;
+	
+	//----电流校准参数
+	uint8_t  ADC_FLAG;
+	uint16_t ADC_CNT;
+	uint32_t ia_sum;
+	uint32_t ib_sum;
 
 }FocStatus;
 

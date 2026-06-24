@@ -11,7 +11,7 @@
 
 volatile FocStatus myfoc;
 //volatile float temp_angle=0;
-volatile uint8_t SEND_FLAG=0;
+//volatile uint8_t SEND_FLAG=0;
 
 
 int main(){
@@ -37,15 +37,17 @@ foc_adc_init();
 /*foc初始参数*/
 
  FOC_Init(&myfoc);		//参数初始化
- foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
+ //foc_current_offset(&myfoc);		//电流零位自校准，获取0电流时的基准量
  
  myfoc.ud=0;
  myfoc.uq=0;
- //myfoc.theta_e=0;
+// myfoc.theta_e=0;
 //myfoc.u_alpha=3;
 //myfoc.u_beta=0;
  //myfoc.theta_e=0;
 //myfoc.targetSpeed=2000;//设定参考转速
+
+while(myfoc.ADC_FLAG == 0);
 myfoc.focEnable=1;
 
 
@@ -57,7 +59,7 @@ while(1)
 		/*串口待发送数据*/
 		float tx_data[]={
 			//	thm,
-			myfoc.speed,
+//			myfoc.speed,
 			myfoc.theta_m,
 //			myfoc.theta_e,
 			myfoc.targetAngle,
@@ -66,11 +68,12 @@ while(1)
 //			myfoc.ia,
 //			myfoc.ib,
 //			myfoc.ic,
-//			myfoc.id,
+			
 //			myfoc.ud,
 //			myfoc.uq,
 //			myfoc.iqerror,
-			myfoc.pos_error,
+//			myfoc.pos_error,
+//			myfoc.id,
 //		  myfoc.iq,
 //			myfoc.target_id,
 //			myfoc.target_iq,
@@ -80,8 +83,10 @@ while(1)
 //			myfoc.pid_id.integral,
 //			myfoc.pid_iq.integral
 //    myfoc.pid_position.integral
-//     myfoc.traj.pos_plan,
-//		 myfoc.traj.vel_plan
+     myfoc.traj.pos_plan,
+		 myfoc.traj.vel_plan
+//     myfoc.ia_offset,
+//		 myfoc.ib_offset,
 		};
 		
 		//if(SEND_FLAG==1){

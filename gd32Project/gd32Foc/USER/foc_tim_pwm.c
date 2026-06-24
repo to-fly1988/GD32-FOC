@@ -28,7 +28,7 @@ void pwm_init(void){
 	timer0_init.counterdirection=(TIMER_COUNTER_UP);  //计数方向
 	timer0_init.period=FOC_PWM_ARR/2-1;		//周期
 	timer0_init.clockdivision=TIMER_CKDIV_DIV1;  //
-	timer0_init.repetitioncounter=1;									//RCR设为1，配合ADC触发，
+	timer0_init.repetitioncounter=1;									//RCR设为1，配合ADC触发
 	timer_init(TIMER0,&timer0_init);
 	
 	ch_config.outputstate=TIMER_CCX_ENABLE;    //输出使能
@@ -44,17 +44,17 @@ void pwm_init(void){
 	//CH0通道配置输出模式
 	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_0,FOC_PWM_ARR);
 	timer_channel_output_mode_config(TIMER0,TIMER_CH_0,TIMER_OC_MODE_PWM1);
-	timer_channel_output_shadow_config (TIMER0,TIMER_CH_0,TIMER_OC_SHADOW_DISABLE);
+	timer_channel_output_shadow_config (TIMER0,TIMER_CH_0,TIMER_OC_SHADOW_ENABLE);
 	
 	//CH1
 	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_1,FOC_PWM_ARR);
 	timer_channel_output_mode_config(TIMER0,TIMER_CH_1,TIMER_OC_MODE_PWM1);
-	timer_channel_output_shadow_config (TIMER0,TIMER_CH_1,TIMER_OC_SHADOW_DISABLE);
+	timer_channel_output_shadow_config (TIMER0,TIMER_CH_1,TIMER_OC_SHADOW_ENABLE);
 	
 	//CH2
 	timer_channel_output_pulse_value_config(TIMER0,TIMER_CH_2,FOC_PWM_ARR);
 	timer_channel_output_mode_config(TIMER0,TIMER_CH_2,TIMER_OC_MODE_PWM1);
-	timer_channel_output_shadow_config (TIMER0,TIMER_CH_2,TIMER_OC_SHADOW_DISABLE);
+	timer_channel_output_shadow_config (TIMER0,TIMER_CH_2,TIMER_OC_SHADOW_ENABLE);
 	
 	
 	timer_auto_reload_shadow_enable(TIMER0);

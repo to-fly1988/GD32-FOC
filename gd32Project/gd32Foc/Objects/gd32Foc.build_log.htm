@@ -27,6 +27,43 @@ Project File Date:  05/24/2026
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'D:\keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
+compiling systick.c...
+USER/main.c(4): warning: In file included from...
+./USER/focAlgorithm.h(51): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER/focAlgorithm.h(78): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
+        float pos_error;
+              ^
+./USER/focAlgorithm.h(86): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
+        PidStatus pid_position;
+                  ^
+./USER/focAlgorithm.h(96): warning: padding struct 'FocStatus' with 1 byte to align 'ADC_CNT' [-Wpadded]
+        uint16_t ADC_CNT;
+                 ^
+USER/main.c(123): warning: unused parameter 'f' [-Wunused-parameter]
+int fputc(int ch, FILE *f)
+                        ^
+USER/main.c(12): warning: no previous extern declaration for non-static variable 'myfoc' [-Wmissing-variable-declarations]
+volatile FocStatus myfoc;
+                   ^
+USER/main.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile FocStatus myfoc;
+         ^
+6 warnings generated.
+compiling main.c...
+USER/foc_tim_pwm.c(1): warning: In file included from...
+./USER/foc_tim_pwm.h(10): warning: In file included from...
+../Firmware/CMSIS/GD/GD32E50x/Include\gd32e50x.h(460): warning: In file included from...
+./BSP\gd32e50x_libopt.h(60): warning: In file included from...
+../Firmware/GD32E50x_standard_peripheral/Include\gd32e50x_timer.h(265): warning: padding struct 'timer_parameter_struct' with 2 bytes to align 'period' [-Wpadded]
+    uint32_t period;                                         /*!< period value */
+             ^
+../Firmware/GD32E50x_standard_peripheral/Include\gd32e50x_timer.h(260): warning: padding size of 'timer_parameter_struct' with 1 byte to alignment boundary [-Wpadded]
+typedef struct
+        ^
+2 warnings generated.
+compiling foc_tim_pwm.c...
 USER/foc_usart.c(7): warning: In file included from...
 ./USER/foc_usart.h(10): warning: In file included from...
 ../Firmware/CMSIS/GD/GD32E50x/Include\gd32e50x.h(460): warning: In file included from...
@@ -36,17 +73,97 @@ typedef struct
         ^
 USER/foc_usart.c(7): warning: In file included from...
 ./USER/foc_usart.h(12): warning: In file included from...
-./USER/focAlgorithm.h(50): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+./USER/focAlgorithm.h(51): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
         float targetAngle; //目标角度位置
               ^
-./USER/focAlgorithm.h(77): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
+./USER/focAlgorithm.h(78): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
         float pos_error;
               ^
-./USER/focAlgorithm.h(85): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
+./USER/focAlgorithm.h(86): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
         PidStatus pid_position;
                   ^
-4 warnings generated.
+./USER/focAlgorithm.h(96): warning: padding struct 'FocStatus' with 1 byte to align 'ADC_CNT' [-Wpadded]
+        uint16_t ADC_CNT;
+                 ^
+5 warnings generated.
 compiling foc_usart.c...
+BSP/gd32e50x_it.c(54): warning: function 'NMI_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(66): warning: function 'HardFault_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(79): warning: function 'SVC_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(91): warning: function 'PendSV_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
+{
+^
+BSP/gd32e50x_it.c(39): warning: In file included from...
+./USER\foc_ADC.h(12): warning: In file included from...
+./USER\focAlgorithm.h(51): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER\focAlgorithm.h(78): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
+        float pos_error;
+              ^
+./USER\focAlgorithm.h(86): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
+        PidStatus pid_position;
+                  ^
+./USER\focAlgorithm.h(96): warning: padding struct 'FocStatus' with 1 byte to align 'ADC_CNT' [-Wpadded]
+        uint16_t ADC_CNT;
+                 ^
+8 warnings generated.
+compiling gd32e50x_it.c...
+USER/foc_ADC.c(45): warning: unused variable 'sum_a' [-Wunused-variable]
+        uint32_t sum_a=0;
+                 ^
+USER/foc_ADC.c(46): warning: unused variable 'sum_b' [-Wunused-variable]
+  uint32_t sum_b=0;
+           ^
+USER/foc_ADC.c(1): warning: In file included from...
+./USER/foc_ADC.h(12): warning: In file included from...
+./USER/focAlgorithm.h(51): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER/focAlgorithm.h(78): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
+        float pos_error;
+              ^
+./USER/focAlgorithm.h(86): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
+        PidStatus pid_position;
+                  ^
+./USER/focAlgorithm.h(96): warning: padding struct 'FocStatus' with 1 byte to align 'ADC_CNT' [-Wpadded]
+        uint16_t ADC_CNT;
+                 ^
+6 warnings generated.
+compiling foc_ADC.c...
+USER/focAlgorithm.c(1): warning: In file included from...
+./USER/focAlgorithm.h(51): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
+        float targetAngle; //目标角度位置
+              ^
+./USER/focAlgorithm.h(78): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
+        float pos_error;
+              ^
+./USER/focAlgorithm.h(86): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
+        PidStatus pid_position;
+                  ^
+./USER/focAlgorithm.h(96): warning: padding struct 'FocStatus' with 1 byte to align 'ADC_CNT' [-Wpadded]
+        uint16_t ADC_CNT;
+                 ^
+USER/focAlgorithm.c(108): warning: comparing floating point with == or != is unsafe [-Wfloat-equal]
+        if((out_unsat == out) || (out >= pid->out_limit && error < 0) || (out <= -pid->out_limit && error >0) ){
+            ~~~~~~~~~ ^  ~~~
+USER/focAlgorithm.c(55): warning: unused function 'clark_Park' [-Wunused-function]
+static void clark_Park(volatile FocStatus *foc){
+            ^
+USER/focAlgorithm.c(230): warning: unused function 'SMC_Sat' [-Wunused-function]
+static float SMC_Sat(float s, float delta){
+             ^
+USER/focAlgorithm.c(243): warning: unused function 'Friction_COMP' [-Wunused-function]
+static float Friction_COMP(volatile FocStatus *foc){
+             ^
+8 warnings generated.
+compiling focAlgorithm.c...
 USER/encoder_spi.c(112): warning: implicit conversion loses integer precision: 'uint16_t' (aka 'unsigned short') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
         return spi_i2s_data_receive(SPI0);
         ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,105 +187,6 @@ static void soft_spi_init(void)
             ^
 7 warnings generated.
 compiling encoder_spi.c...
-BSP/gd32e50x_it.c(54): warning: function 'NMI_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(66): warning: function 'HardFault_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(79): warning: function 'SVC_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(91): warning: function 'PendSV_Handler' could be declared with attribute 'noreturn' [-Wmissing-noreturn]
-{
-^
-BSP/gd32e50x_it.c(39): warning: In file included from...
-./USER\foc_ADC.h(12): warning: In file included from...
-./USER\focAlgorithm.h(50): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER\focAlgorithm.h(77): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
-        float pos_error;
-              ^
-./USER\focAlgorithm.h(85): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
-        PidStatus pid_position;
-                  ^
-7 warnings generated.
-compiling gd32e50x_it.c...
-USER/focAlgorithm.c(1): warning: In file included from...
-./USER/focAlgorithm.h(50): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER/focAlgorithm.h(77): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
-        float pos_error;
-              ^
-./USER/focAlgorithm.h(85): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
-        PidStatus pid_position;
-                  ^
-USER/focAlgorithm.c(46): warning: unused function 'clark_Park' [-Wunused-function]
-static void clark_Park(volatile FocStatus *foc){
-            ^
-USER/focAlgorithm.c(215): warning: unused function 'SMC_Sat' [-Wunused-function]
-static float SMC_Sat(float s, float delta){
-             ^
-USER/focAlgorithm.c(228): warning: unused function 'Friction_COMP' [-Wunused-function]
-static float Friction_COMP(volatile FocStatus *foc){
-             ^
-6 warnings generated.
-compiling focAlgorithm.c...
-compiling systick.c...
-USER/foc_ADC.c(1): warning: In file included from...
-./USER/foc_ADC.h(12): warning: In file included from...
-./USER/focAlgorithm.h(50): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER/focAlgorithm.h(77): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
-        float pos_error;
-              ^
-./USER/focAlgorithm.h(85): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
-        PidStatus pid_position;
-                  ^
-3 warnings generated.
-compiling foc_ADC.c...
-USER/main.c(14): warning: no previous extern declaration for non-static variable 'SEND_FLAG' [-Wmissing-variable-declarations]
-volatile uint8_t SEND_FLAG=0;
-                 ^
-USER/main.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint8_t SEND_FLAG=0;
-         ^
-USER/main.c(4): warning: In file included from...
-./USER/focAlgorithm.h(50): warning: padding struct 'FocStatus' with 3 bytes to align 'targetAngle' [-Wpadded]
-        float targetAngle; //目标角度位置
-              ^
-./USER/focAlgorithm.h(77): warning: padding struct 'FocStatus' with 3 bytes to align 'pos_error' [-Wpadded]
-        float pos_error;
-              ^
-./USER/focAlgorithm.h(85): warning: padding struct 'FocStatus' with 2 bytes to align 'pid_position' [-Wpadded]
-        PidStatus pid_position;
-                  ^
-USER/main.c(118): warning: unused parameter 'f' [-Wunused-parameter]
-int fputc(int ch, FILE *f)
-                        ^
-USER/main.c(12): warning: no previous extern declaration for non-static variable 'myfoc' [-Wmissing-variable-declarations]
-volatile FocStatus myfoc;
-                   ^
-USER/main.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile FocStatus myfoc;
-         ^
-6 warnings generated.
-compiling main.c...
-USER/foc_tim_pwm.c(1): warning: In file included from...
-./USER/foc_tim_pwm.h(10): warning: In file included from...
-../Firmware/CMSIS/GD/GD32E50x/Include\gd32e50x.h(460): warning: In file included from...
-./BSP\gd32e50x_libopt.h(60): warning: In file included from...
-../Firmware/GD32E50x_standard_peripheral/Include\gd32e50x_timer.h(265): warning: padding struct 'timer_parameter_struct' with 2 bytes to align 'period' [-Wpadded]
-    uint32_t period;                                         /*!< period value */
-             ^
-../Firmware/GD32E50x_standard_peripheral/Include\gd32e50x_timer.h(260): warning: padding size of 'timer_parameter_struct' with 1 byte to alignment boundary [-Wpadded]
-typedef struct
-        ^
-2 warnings generated.
-compiling foc_tim_pwm.c...
 compiling system_gd32e50x.c...
 assembling startup_gd32e50x_hd.s...
 compiling gd32e50x_gpio.c...
@@ -228,8 +246,8 @@ compiling gd32e50x_dma.c...
 2 warnings generated.
 compiling gd32e50x_usart.c...
 linking...
-Program Size: Code=10104 RO-data=480 RW-data=8 ZI-data=1256  
-".\Objects\gd32Foc.axf" - 0 Error(s), 47 Warning(s).
+Program Size: Code=10276 RO-data=480 RW-data=8 ZI-data=1288  
+".\Objects\gd32Foc.axf" - 0 Error(s), 54 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -252,7 +270,7 @@ Package Vendor: GigaDevice
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

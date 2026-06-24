@@ -124,11 +124,27 @@ void ADC0_1_IRQHandler(void){
 //		myfoc.ib=adc_value2*3.2f/4096;
 //		myfoc.ia=(myfoc.ia-1.645f)*2.0f;	//换算成电流值
 //		myfoc.ib=(myfoc.ib-1.645f)*2.0f;
+	
+	  if(myfoc.ADC_FLAG==1){
+		
+				myfoc.ia_sum += adc_value1;
+				myfoc.ib_sum += adc_value2;
+				myfoc.ADC_CNT += 1;
+			
+			if(myfoc.ADC_CNT == 1000){
+			    myfoc.ia_offset = myfoc.ia_sum / 1000;
+          myfoc.ib_offset = myfoc.ib_sum / 1000;
+          myfoc.ADC_FLAG  = 0;				
+			}
+			
+			return ;
+		
+		}
+		
 		myfoc.ia=(float)-(adc_value1-myfoc.ia_offset)*3.3f/4096*2.0f;
 		myfoc.ib=(float)-(adc_value2-myfoc.ib_offset)*3.3f/4096*2.0f;
 		myfoc.ic=-myfoc.ia-myfoc.ib;
 	
-		
 		/*读编码器，电角度更新*/
 		myfoc.theta_e=read_encoder_value()-OFFSET_ANGLE;
 		while (myfoc.theta_e < 0) {
@@ -138,12 +154,18 @@ void ADC0_1_IRQHandler(void){
 			myfoc.theta_e -= 360.0f;
 		}
 		myfoc.theta_e=myfoc.theta_e*0.017453f*NP*ROTOR_DIRECT;	//第一个数字，转化为弧度制;第二个乘的数字为极对数;第三个数字是方向
+
+//     myfoc.theta_e+=0.001f;
 	   while ( myfoc.theta_e > 6.283185f){
 		   myfoc.theta_e -= 6.283185f;
 	   }
 		while (myfoc.theta_e < 0){
 			myfoc.theta_e += 6.283185f;
 		}
+		
+     
+			
+   
 		/*运行电流环*/
 		FOC_CURRENT_LOOP(&myfoc);
 		
@@ -173,7 +195,9 @@ void TIMER1_IRQHandler(void){
 		} else if (delta_angle < -180.0f) {
 				delta_angle += 360.0f;
 		}
-		myfoc.speed=delta_angle*166.6667f*4.0f;	//166.6667=1/0.001/360*60
+//		float temp_speed = delta_angle*166.6667f*4.0f;	//166.6667=1/0.001/360*60
+		//myfoc.speed = 0.9f*myfoc.speed + 0.1f*temp_speed;
+		myfoc.speed = delta_angle*166.6667f*4.0f;	//166.6667=1/0.001/360*60
 		myfoc.theta_m=angle;
 		
 		/*运行速度环*/

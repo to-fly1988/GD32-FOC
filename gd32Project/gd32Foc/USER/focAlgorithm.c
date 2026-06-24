@@ -6,6 +6,11 @@
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
+	foc->ADC_FLAG=1;
+	foc->ADC_CNT=0;
+	foc->ia_sum=0;
+	foc->ib_sum=0;
+	
 	foc->targetAngle=100;
   foc->targetSpeed=100;
 	
@@ -17,27 +22,31 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->pid_id.ki=MOTOR_PID_ID_KI;
 	foc->pid_id.integral=0;
 	foc->pid_id.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1	
+	foc->pid_id.int_limit = FOC_UDC*0.577f*0.8f;	
 	
 	foc->pid_iq.kp=MOTOR_PID_IQ_KP;
 	foc->pid_iq.ki=MOTOR_PID_IQ_KI;
 	foc->pid_iq.integral=0;
 	foc->pid_iq.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1
+	foc->pid_iq.int_limit = FOC_UDC*0.577f*0.8f;	
 	
 	foc->pid_speed.kp=MOTOR_PID_SPEED_KP;
 	foc->pid_speed.ki=MOTOR_PID_SPEED_KI;
 	foc->pid_speed.integral=0;
-	foc->pid_speed.out_limit=MAX_CURRENT;
+	foc->pid_speed.out_limit = MAX_CURRENT;
+	foc->pid_speed.int_limit = MAX_CURRENT*0.8f;	
 	
 	foc->pid_position.kp=MOTOR_PID_POS_KP;
 	foc->pid_position.ki=0;
 	foc->pid_position.integral=0;
 	foc->pid_position.out_limit=MAX_SPEED/1.3f;
+	foc->pid_position.int_limit = 0;	
 	
 	/*轨迹规划初始参数*/
 	foc->traj.pos_plan=0;
 	foc->traj.vel_plan=0;
 	foc->traj.vmax=5000;
-	foc->traj.amax=300000;
+	foc->traj.amax=500000;
 	foc->traj.acc_plan=0;
 	
 }
@@ -75,25 +84,31 @@ static void anti_Park(volatile FocStatus *foc){
 /* ======PID计算函数======*/
 static float pid_Process(volatile PidStatus *pid,float error){
 	
-	float out;
+	float out, out_unsat, temp_int;
 	
 	/*积分项*/
-	pid->integral+=pid->ki*error;
+	temp_int = pid->integral + pid->ki*error;
 	
 	/*积分限幅*/
-	if(pid->integral>pid->out_limit)
-	{pid->integral=pid->out_limit;}
-	else if(pid->integral<-pid->out_limit)
-	{pid->integral=-pid->out_limit;}
+	if(temp_int > pid->int_limit)
+	{temp_int = pid->int_limit;}
+	else if(temp_int < -pid->int_limit)
+	{temp_int = -pid->int_limit;}
 	
 	/*比例项*/
-	out=pid->kp*error+pid->integral;
+	out_unsat = pid->kp*error + temp_int;
+	out = out_unsat;
 	
 	/*输出限幅*/
-	if(out>pid->out_limit)
-	{out=pid->out_limit;}
-	else if(out<-pid->out_limit)
-	{out=-pid->out_limit;}
+	if(out > pid->out_limit)
+	{out = pid->out_limit;}
+	else if(out < -pid->out_limit)
+	{out = -pid->out_limit;}
+	
+	if((out_unsat == out) || (out >= pid->out_limit && error < 0) || (out <= -pid->out_limit && error >0) ){
+		pid->integral = temp_int;
+	}
+	
 	
 	return out;
 
@@ -247,7 +262,7 @@ static void Trajectory_Udate(volatile TRAJ_T *traj, float target_pos, float Ts )
 //	float stop_dist=(3*traj->vel_plan*traj->vel_plan)/(traj->amax);	//计算当前速度刹车距离，结果单位是deg
 	
 	/***终点死区设置***/
-	if (fabsf(dist) < 0.5f && fabsf(traj->vel_plan) <= max_dv) {
+	if (fabsf(dist) < 0.5f && fabsf(traj->vel_plan) <= 2.0f*max_dv) {
         traj->pos_plan = target_pos;
         traj->vel_plan = 0.0f;
         return; 
@@ -313,6 +328,13 @@ static void Trajectory_Udate(volatile TRAJ_T *traj, float target_pos, float Ts )
 	/*计算规划位置*/
 	traj->pos_plan=traj->pos_plan+traj->vel_plan*Ts*6.0f;    //6.0f是将rpm转换成deg/s
 	
+	/*判断本周期规划后的位置是否跨越target pos*/
+	float dist_next = target_pos - traj->pos_plan;
+	if((dist>0.0f && dist_next <=0.0f) || (dist < 0.0f && dist_next >=0.0f)){
+	    traj->pos_plan = target_pos;
+		  traj->vel_plan = 0.0f;
+	}
+	
 }
 
 /**/
@@ -338,8 +360,8 @@ void FOC_CURRENT_LOOP(volatile FocStatus *foc){
 	
 	foc->iqerror=iq_error;
 	
-	foc->ud=pid_Process(&foc->pid_id,id_error);
-	foc->uq=pid_Process(&foc->pid_iq,iq_error);
+	foc->ud = pid_Process(&foc->pid_id,id_error);
+	foc->uq = pid_Process(&foc->pid_iq,iq_error);
 	
 	
 	//逆帕克变换得到ualpha,ubeta
@@ -357,8 +379,8 @@ void FOC_CURRENT_LOOP(volatile FocStatus *foc){
 void FOC_SPEED_LOOP(volatile FocStatus *foc){
 
 	//速度环PID计算
-	float speed_error = foc->targetSpeed-foc->speed;
-	foc->target_iq    = pid_Process(&foc->pid_speed,speed_error);
+	float speed_error = foc->targetSpeed - foc->speed;
+	foc->target_iq    = pid_Process(&foc->pid_speed, speed_error);
 	
 
 }
@@ -370,8 +392,7 @@ void FOC_POSITION_LOOP(volatile FocStatus *foc){
 	
 	
 	//float position_error=foc->targetAngle-foc->theta_m;
-	//float temp_angle     = read_encoder_value();
-	float position_error = foc->traj.pos_plan-foc->theta_m;
+	float position_error = foc->traj.pos_plan - foc->theta_m;
 	foc->pos_error=position_error;
 //	if(position_error>180){
 //		position_error=position_error-360;}
@@ -380,7 +401,7 @@ void FOC_POSITION_LOOP(volatile FocStatus *foc){
 //	if(fabsf(position_error)<ENCODER_RES){
 //	  position_error=0;
 //	  foc->pid_speed.integral=0;}
-	foc->targetSpeed=pid_Process(&foc->pid_position,position_error)+foc->traj.vel_plan;
+	foc->targetSpeed = pid_Process(&foc->pid_position,position_error) + foc->traj.vel_plan ;
 }
 
 /*=======开环=======*/

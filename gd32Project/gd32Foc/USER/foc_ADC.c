@@ -44,16 +44,16 @@ void foc_current_offset(volatile FocStatus *foc){
 	
 	uint32_t sum_a=0;
   uint32_t sum_b=0;
-	for(int i=0;i<2000;i++){
-	
-		sum_a=sum_a+adc_inserted_data_read(ADC0,ADC_INSERTED_CHANNEL_0);
-		sum_b=sum_b+adc_inserted_data_read(ADC0,ADC_INSERTED_CHANNEL_1);
-		
-	}
-	
-	foc->ia_offset=(float)sum_a/2000;
-	foc->ib_offset=(float)sum_b/2000;	
-//	foc->ia_offset=-1.65f;
-//	foc->ib_offset=-1.65f;
+//	for(int i=0;i<2000;i++){
+//	
+//		sum_a=sum_a+adc_inserted_data_read(ADC0,ADC_INSERTED_CHANNEL_0);
+//		sum_b=sum_b+adc_inserted_data_read(ADC0,ADC_INSERTED_CHANNEL_1);
+//		
+//	}
+//	
+//	foc->ia_offset=(float)sum_a/2000;
+//	foc->ib_offset=(float)sum_b/2000;	
+	foc->ia_offset=2048;
+	foc->ib_offset=2048;
 
 }
