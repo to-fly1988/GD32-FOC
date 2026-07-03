@@ -20,7 +20,7 @@ void usart1_init(void){
 	
 	/*配置USRT1的参数*/
 	usart_deinit(USART1);																	//复位
-	usart_baudrate_set(USART1,115200);										//设置波特率
+	usart_baudrate_set(USART1,1152000);										//设置波特率
 	usart_word_length_set(USART1,USART_WL_8BIT);					//设置数据位8位
 	usart_stop_bit_set(USART1,USART_STB_1BIT);						//设置停止位1位
 	usart_receive_config(USART1,USART_RECEIVE_ENABLE);		//使能接收

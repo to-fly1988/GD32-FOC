@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\gd32Foc.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\gd32Foc.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6160001: Last Updated: Tue Jun 23 17:12:43 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6160001: Last Updated: Fri Jul  3 15:48:32 2026
 <BR><P>
 <H3>Maximum Stack Usage =        112 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -406,7 +406,7 @@ Global Symbols
 
 <P><STRONG><a name="[cd]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
-<P><STRONG><a name="[1c]"></a>ADC0_1_IRQHandler</STRONG> (Thumb, 492 bytes, Stack size 16 bytes, gd32e50x_it.o(.text.ADC0_1_IRQHandler))
+<P><STRONG><a name="[1c]"></a>ADC0_1_IRQHandler</STRONG> (Thumb, 508 bytes, Stack size 16 bytes, gd32e50x_it.o(.text.ADC0_1_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = ADC0_1_IRQHandler &rArr; FOC_CURRENT_LOOP &rArr; park_Conv &rArr; __hardfp_sinf &rArr; __mathlib_rredf2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_inserted_data_read
@@ -431,22 +431,22 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC0_1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[9c]"></a>FOC_Init</STRONG> (Thumb, 216 bytes, Stack size 8 bytes, focalgorithm.o(.text.FOC_Init))
+<P><STRONG><a name="[9c]"></a>FOC_Init</STRONG> (Thumb, 270 bytes, Stack size 8 bytes, focalgorithm.o(.text.FOC_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = FOC_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[68]"></a>FOC_POSITION_LOOP</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, focalgorithm.o(.text.FOC_POSITION_LOOP))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = FOC_POSITION_LOOP &rArr; Trajectory_Udate &rArr; __hardfp_sqrtf
+<P><STRONG><a name="[68]"></a>FOC_POSITION_LOOP</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, focalgorithm.o(.text.FOC_POSITION_LOOP))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = FOC_POSITION_LOOP &rArr; Trajectory_Update &rArr; __hardfp_sqrtf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_Process
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trajectory_Udate
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trajectory_Update
 </UL>
 <BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIMER1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[6a]"></a>FOC_SPEED_LOOP</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, focalgorithm.o(.text.FOC_SPEED_LOOP))
+<P><STRONG><a name="[6a]"></a>FOC_SPEED_LOOP</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, focalgorithm.o(.text.FOC_SPEED_LOOP))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = FOC_SPEED_LOOP
 </UL>
 <BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_Process
@@ -499,7 +499,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_gd32e50x_hd.o(.text)
 </UL>
 <P><STRONG><a name="[26]"></a>TIMER1_IRQHandler</STRONG> (Thumb, 164 bytes, Stack size 8 bytes, gd32e50x_it.o(.text.TIMER1_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = TIMER1_IRQHandler &rArr; FOC_POSITION_LOOP &rArr; Trajectory_Udate &rArr; __hardfp_sqrtf
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = TIMER1_IRQHandler &rArr; FOC_POSITION_LOOP &rArr; Trajectory_Update &rArr; __hardfp_sqrtf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_interrupt_flag_clear
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FOC_SPEED_LOOP
@@ -701,7 +701,7 @@ Global Symbols
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;foc_adc_init
 </UL>
 
-<P><STRONG><a name="[56]"></a>main</STRONG> (Thumb, 104 bytes, Stack size 24 bytes, main.o(.text.main))
+<P><STRONG><a name="[56]"></a>main</STRONG> (Thumb, 108 bytes, Stack size 24 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = main &rArr; foc_spi_init &rArr; MT6701_spi_init &rArr; gpio_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_send_array
@@ -948,7 +948,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_init
 </UL>
 
-<P><STRONG><a name="[9a]"></a>usart1_init</STRONG> (Thumb, 146 bytes, Stack size 16 bytes, foc_usart.o(.text.usart1_init))
+<P><STRONG><a name="[9a]"></a>usart1_init</STRONG> (Thumb, 150 bytes, Stack size 16 bytes, foc_usart.o(.text.usart1_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = usart1_init &rArr; usart_baudrate_set &rArr; rcu_clock_freq_get
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_word_length_set
@@ -1094,7 +1094,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trajectory_Udate
+<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Trajectory_Update
 </UL>
 
 <P><STRONG><a name="[c3]"></a>__mathlib_flt_infnan</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_infnan))
@@ -1133,8 +1133,8 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[69]"></a>Trajectory_Udate</STRONG> (Thumb, 316 bytes, Stack size 40 bytes, focalgorithm.o(.text.Trajectory_Udate))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Trajectory_Udate &rArr; __hardfp_sqrtf
+<P><STRONG><a name="[69]"></a>Trajectory_Update</STRONG> (Thumb, 428 bytes, Stack size 64 bytes, focalgorithm.o(.text.Trajectory_Update))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = Trajectory_Update &rArr; __hardfp_sqrtf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 </UL>

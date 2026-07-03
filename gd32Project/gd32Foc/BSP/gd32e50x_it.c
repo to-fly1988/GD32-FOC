@@ -114,7 +114,8 @@ extern volatile FocStatus myfoc;
 extern volatile float temp_angle;
 
 void ADC0_1_IRQHandler(void){
-		
+		static uint8_t s_count = 0;
+	  s_count ++;
 		adc_interrupt_flag_clear(ADC0,ADC_INT_FLAG_EOIC);		//清除中断标志位
 	
 		/*ADC采样电流*/
@@ -146,7 +147,9 @@ void ADC0_1_IRQHandler(void){
 		myfoc.ic=-myfoc.ia-myfoc.ib;
 	
 		/*读编码器，电角度更新*/
-		myfoc.theta_e=read_encoder_value()-OFFSET_ANGLE;
+		float angle=read_encoder_value();
+//		myfoc.theta_e=read_encoder_value()-OFFSET_ANGLE;
+		myfoc.theta_e=angle-OFFSET_ANGLE;
 		while (myfoc.theta_e < 0) {
 			myfoc.theta_e += 360.0f;
 		}
@@ -162,8 +165,6 @@ void ADC0_1_IRQHandler(void){
 		while (myfoc.theta_e < 0){
 			myfoc.theta_e += 6.283185f;
 		}
-		
-     
 			
    
 		/*运行电流环*/
@@ -171,6 +172,21 @@ void ADC0_1_IRQHandler(void){
 		
 		/*运行开环程序*/
 		//FOC_OPEN_LOOP(&myfoc);
+		
+		/*计算速度*/
+	
+//		if(s_count==2){
+//				float delta_angle=angle-myfoc.theta_m;
+//		if (delta_angle > 180.0f) {
+//				delta_angle -= 360.0f;
+//		} else if (delta_angle < -180.0f) {
+//				delta_angle += 360.0f;
+//		}
+//			
+//		myfoc.speed = delta_angle*166.6667f*10.0f;	//166.6667=1/0.001/360*60
+//			s_count=0;
+//		myfoc.theta_m=angle;}
+		
 	
 }
 
@@ -197,11 +213,14 @@ void TIMER1_IRQHandler(void){
 		}
 //		float temp_speed = delta_angle*166.6667f*4.0f;	//166.6667=1/0.001/360*60
 		//myfoc.speed = 0.9f*myfoc.speed + 0.1f*temp_speed;
+		
+		
 		myfoc.speed = delta_angle*166.6667f*4.0f;	//166.6667=1/0.001/360*60
 		myfoc.theta_m=angle;
 		
 		/*运行速度环*/
 		FOC_SPEED_LOOP(&myfoc);
+		
 		/*运行位置环*/
 		if(time_count==4){
 			time_count=0;

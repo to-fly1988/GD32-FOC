@@ -3,6 +3,10 @@
 #include "motor_config.h"
 #include "math.h"
 #include "encoder_spi.h"
+
+//函数声明
+static void ESO_SPEED_LOOP(volatile FocStatus *foc);
+
 /* =====FOC参数初始化=====*/
 void FOC_Init(volatile FocStatus *foc){
 	
@@ -30,9 +34,9 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->pid_iq.out_limit=FOC_UDC*0.577f;		//0.577为根号三分之1
 	foc->pid_iq.int_limit = FOC_UDC*0.577f*0.8f;	
 	
-	foc->pid_speed.kp=MOTOR_PID_SPEED_KP;
-	foc->pid_speed.ki=MOTOR_PID_SPEED_KI;
-	foc->pid_speed.integral=0;
+	foc->pid_speed.kp = MOTOR_PID_SPEED_KP;
+	foc->pid_speed.ki = MOTOR_PID_SPEED_KI;
+	foc->pid_speed.integral = 0;
 	foc->pid_speed.out_limit = MAX_CURRENT;
 	foc->pid_speed.int_limit = MAX_CURRENT*0.8f;	
 	
@@ -40,14 +44,24 @@ void FOC_Init(volatile FocStatus *foc){
 	foc->pid_position.ki=0;
 	foc->pid_position.integral=0;
 	foc->pid_position.out_limit=MAX_SPEED/1.3f;
-	foc->pid_position.int_limit = 0;	
+	foc->pid_position.int_limit = 4000.0f;	
 	
 	/*轨迹规划初始参数*/
 	foc->traj.pos_plan=0;
 	foc->traj.vel_plan=0;
 	foc->traj.vmax=5000;
-	foc->traj.amax=500000;
+	foc->traj.amax=800000;
 	foc->traj.acc_plan=0;
+	foc->TR_FLAG = 1;
+	
+	/*速度环eso初始参数*/
+	foc->eso_speed.z1 = 0.0f;
+	foc->eso_speed.z2 = 0.0f;
+	foc->eso_speed.b0 = 320000.0f;      // 
+
+	float wo = 250.0f;                // rad/s，先试 100~300
+	foc->eso_speed.beta1 = 2.0f * wo;
+	foc->eso_speed.beta2 = wo * wo;
 	
 }
 
@@ -252,24 +266,34 @@ static float Friction_COMP(volatile FocStatus *foc){
 }
 /***************/
 
-/*！
-    \brief 轨迹规划器
+/*!
+   \brief  轨迹规划器
 */
-static void Trajectory_Udate(volatile TRAJ_T *traj, float target_pos, float Ts ){
+static void Trajectory_Update(volatile TRAJ_T *traj, float target_pos, float Ts, volatile FocStatus *foc  ){
 	
 	float dist=target_pos-traj->pos_plan;
+	
 	float max_dv=traj->amax*Ts;
-//	float stop_dist=(3*traj->vel_plan*traj->vel_plan)/(traj->amax);	//计算当前速度刹车距离，结果单位是deg
+
 	
 	/***终点死区设置***/
-	if (fabsf(dist) < 0.5f && fabsf(traj->vel_plan) <= 2.0f*max_dv) {
-        traj->pos_plan = target_pos;
+//	if(foc->TR_FLAG){
+	if (fabsf(dist) < 0.1f && fabsf(traj->vel_plan) <= 0.1f*max_dv && fabsf(foc->speed )<=10.0f ) {
+        traj->pos_plan = target_pos; 
         traj->vel_plan = 0.0f;
+				
+		    traj->acc_plan = 0.0f;
+//		    foc->pid_iq.integral *= 0.8f;
+		
         return; 
     }
+//	}
 	
+	float last_vel = traj->vel_plan;	
 	/***计算安全速度***/
-	float max_safe_vel = sqrtf(fabsf(dist) * traj->amax / 3.0f);
+//	float max_safe_vel = sqrtf(fabsf(dist) * traj->amax / 3.0f);
+  float max_safe_vel = traj->amax / 6.0f *(sqrtf(36.0f*0.001f*0.001f+12.0f*fabsf(dist)/traj->amax)-6.0f*0.001f );
+	
 		
 	if(max_safe_vel > traj->vmax)
     {
@@ -295,35 +319,8 @@ static void Trajectory_Udate(volatile TRAJ_T *traj, float target_pos, float Ts )
     {
         traj->vel_plan = max_safe_vel; // 平滑着陆刹车曲线
     }
-	
-//	if(fabsf(dist)>stop_dist){
-//	  /***还在加速区***/
-//		if(dist>0){
-//		    traj->vel_plan=traj->vel_plan+traj->amax*Ts;}
-//		else{
-//		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;}
-//	}
-//	
-//	else{
-//		/*进入减速区*/
-//		if(traj->vel_plan>0){
-//		    traj->vel_plan=traj->vel_plan-traj->amax*Ts;
-//		    if(traj->vel_plan<0){
-//		        traj->vel_plan=0;}
-//		}
-//		
-//		else{
-//			  traj->vel_plan=traj->vel_plan+traj->amax*Ts;
-//			  if(traj->vel_plan>0){
-//		        traj->vel_plan=0;}
-//		}
-//	}
-//	
-//	/*限制最大规划速度*/
-//	if(traj->vel_plan > traj->vmax){
-//        traj->vel_plan = traj->vmax;}
-//  if(traj->vel_plan < -traj->vmax){
-//        traj->vel_plan = -traj->vmax;}
+		
+	traj->acc_plan = (traj->vel_plan - last_vel)	/0.001f;
 	
 	/*计算规划位置*/
 	traj->pos_plan=traj->pos_plan+traj->vel_plan*Ts*6.0f;    //6.0f是将rpm转换成deg/s
@@ -333,6 +330,8 @@ static void Trajectory_Udate(volatile TRAJ_T *traj, float target_pos, float Ts )
 	if((dist>0.0f && dist_next <=0.0f) || (dist < 0.0f && dist_next >=0.0f)){
 	    traj->pos_plan = target_pos;
 		  traj->vel_plan = 0.0f;
+		
+		  traj->acc_plan = 0;
 	}
 	
 }
@@ -380,28 +379,71 @@ void FOC_SPEED_LOOP(volatile FocStatus *foc){
 
 	//速度环PID计算
 	float speed_error = foc->targetSpeed - foc->speed;
-	foc->target_iq    = pid_Process(&foc->pid_speed, speed_error);
 	
+	/*积分释放*/
+//	if (fabsf(foc->targetSpeed) < 10.0f && fabsf(foc->speed) < 50.0f && fabsf(foc->pos_error) < 3.0f) {
+//    foc->pid_speed.integral *= 0.8f;
+//}
+	
+	
+//	foc->target_iq = pid_Process(&foc->pid_speed, speed_error);
+	foc->target_iq = pid_Process(&foc->pid_speed, speed_error)+0.000001f*foc->traj.acc_plan;
+	
+//	ESO_SPEED_LOOP(foc);
+//	
 
 }
 
 /*======位置环部分=======*/
 void FOC_POSITION_LOOP(volatile FocStatus *foc){
 	
-	Trajectory_Udate(&foc->traj,foc->targetAngle, 0.001f);
+	Trajectory_Update(&foc->traj,foc->targetAngle, 0.001f,foc);
 	
 	
-	//float position_error=foc->targetAngle-foc->theta_m;
+//	float position_error=foc->targetAngle-foc->theta_m;
 	float position_error = foc->traj.pos_plan - foc->theta_m;
-	foc->pos_error=position_error;
+//	foc->pos_error=position_error;
 //	if(position_error>180){
 //		position_error=position_error-360;}
 //	else if(position_error<=-180){
 //		position_error=position_error+360;}
-//	if(fabsf(position_error)<ENCODER_RES){
-//	  position_error=0;
-//	  foc->pid_speed.integral=0;}
+
+//	foc->targetSpeed = pid_Process(&foc->pid_position,position_error);
+//	foc->targetSpeed = pid_Process(&foc->pid_position,position_error);
 	foc->targetSpeed = pid_Process(&foc->pid_position,position_error) + foc->traj.vel_plan ;
+//	foc->targetSpeed = pid_Process(&foc->pid_position,position_error) + foc->traj.vel_plan + 0.1f*(foc->traj.vel_plan-foc->speed);
+	
+	/*******/
+	
+}
+
+/*!
+   \brief ESO速度环
+*/
+static void ESO_SPEED_LOOP(volatile FocStatus *foc){
+
+	float u = foc->iq;     // 上一次输出
+  float y = foc->speed;
+	
+	float e_eso = foc->eso_speed.z1 - y;  // e 是 ESO 估计速度和实际速度之间的误差。
+	
+	foc->eso_speed.z1 += 0.00025f * (	foc->eso_speed.z2+ foc->eso_speed.b0 * u- foc->eso_speed.beta1 * e_eso);
+	foc->eso_speed.z2 += 0.00025f * ( - foc->eso_speed.beta2 * e_eso);
+	
+	float speed_error = foc->targetSpeed - foc->speed;
+
+  float iq_cmd = pid_Process(&foc->pid_speed, speed_error);
+
+	float iq_comp = -foc->eso_speed.z2 / foc->eso_speed.b0;
+	iq_cmd += iq_comp;
+	
+	if (iq_cmd > MAX_CURRENT) {
+        iq_cmd = MAX_CURRENT;
+    } else if (iq_cmd < -MAX_CURRENT) {
+        iq_cmd = -MAX_CURRENT;
+    }
+
+    foc->target_iq = iq_cmd;
 }
 
 /*=======开环=======*/

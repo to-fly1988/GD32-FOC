@@ -59,7 +59,7 @@ while(1)
 		/*串口待发送数据*/
 		float tx_data[]={
 			//	thm,
-//			myfoc.speed,
+			myfoc.speed,
 			myfoc.theta_m,
 //			myfoc.theta_e,
 			myfoc.targetAngle,
@@ -81,12 +81,15 @@ while(1)
 //			myfoc.i_beta
 //			myfoc.pid_speed.integral,
 //			myfoc.pid_id.integral,
-//			myfoc.pid_iq.integral
-//    myfoc.pid_position.integral
-     myfoc.traj.pos_plan,
-		 myfoc.traj.vel_plan
+//			myfoc.pid_iq.integral,
+//      myfoc.pid_position.integral
+//     myfoc.traj.pos_plan,
+//		 myfoc.traj.vel_plan
+     myfoc.traj.acc_plan,
 //     myfoc.ia_offset,
 //		 myfoc.ib_offset,
+//     myfoc.eso_speed.z1,
+//		 myfoc.eso_speed.z2
 		};
 		
 		//if(SEND_FLAG==1){

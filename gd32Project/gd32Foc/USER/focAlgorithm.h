@@ -44,6 +44,15 @@ typedef struct{
 	float acc_plan;    //加速度规划
 }TRAJ_T;
 
+/*ESO*/
+typedef struct {
+    float z1;       // speed estimate, rpm
+    float z2;       // disturbance estimate, rpm/s
+    float b0;       // rpm/s/A
+    float beta1;
+    float beta2;
+} EsoSpeed;
+
 //========================foc中所有状态值的结构体变量===========
 typedef struct{
 	uint8_t focEnable; //电机运行状态
@@ -90,13 +99,17 @@ typedef struct{
 	
 	//----轨迹规划状态
 	TRAJ_T traj;
+	uint8_t TR_FLAG;
 	
 	//----电流校准参数
 	uint8_t  ADC_FLAG;
 	uint16_t ADC_CNT;
 	uint32_t ia_sum;
 	uint32_t ib_sum;
-
+  
+	//----eso状态
+	EsoSpeed eso_speed;
+	
 }FocStatus;
 
 
